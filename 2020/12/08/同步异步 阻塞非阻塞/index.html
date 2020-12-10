@@ -1,0 +1,630 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/WennyAhhh.github.io/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/WennyAhhh.github.io/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chaij">
+  <meta name="keywords" content="">
+  <title>同步/异步，阻塞/非阻塞 - chaij&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/WennyAhhh.github.io/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/WennyAhhh.github.io/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/WennyAhhh.github.io/js/utils.js" ></script>
+  <script  src="/WennyAhhh.github.io/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <script src="https://WennyAhhh.github.io/live2d/autoload.js"></script>
+  <header style="height: 70vh;">
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/WennyAhhh.github.io/">&nbsp;<strong>chaij's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/WennyAhhh.github.io/img/article.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      chaij
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-12-08 18:06" pubdate>
+        2020年12月8日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">同步/异步，阻塞/非阻塞</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="同步-异步，阻塞-非阻塞"><a href="#同步-异步，阻塞-非阻塞" class="headerlink" title="同步/异步，阻塞/非阻塞"></a>同步/异步，阻塞/非阻塞</h1><blockquote>
+<p>最近在学习Linux网络编程的时候遇到了IO模型，对于同步IO，异步IO，同步，异步，阻塞，非阻塞等这些术语，感到其定义十分模糊。尤其是抛出–epoll是同步还是异步？阻塞还是非阻塞?这个问题后，我翻阅了网上很多博主的博文，答案有些不一样，愈发感到晦涩难懂。在困扰了一个晚上外加一个上午后，才发现我已经走向死胡同了，每个答主所说的层次并不一样。</p>
+<p>对于这些概念来说，除了应付面试，一无是处（逃，好像我不是一无是处一样</p>
+</blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>之前就已经听闻了这几个名词的大名，去知乎上逛了一圈，满心欢喜地以为自己会了。知道最近在学习IO复用，再回头审视这些概念，才明白其中的内容并没有那么简单。</p>
+<p>参考知乎两位大佬的两篇文章<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/19732473/answer/117012135">（一）</a><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/19732473/answer/88599695">（二）</a>。我们应该站在<strong>不同的层面</strong>上看待这些问题。可以粗略分为<strong>应用级别同步/异步</strong>,<strong>操作系统同步/异步</strong>。应用级别的同步异步是基于操作系统的，比如Nginx是异步非阻塞，但是是基于epoll（操作系统层次）的同步非阻塞（非阻塞不一定，后续再说）。</p>
+<p>需要注意一点。在异步编程中，会提起同步/异步，这一般就是上述中一般的同步/异步，但是这与<strong>IO模型</strong>中的同步异步是<strong>完全不同</strong>的概念。由于站在不同的层面上，可以提到的东西就太多了，同步IO，异步IO，同步，异步，回调，阻塞，非阻塞，并行，并发，多线程，牵扯到了进程，线程，协程，其中线程还包括三种概念：内核线程，轻量级进程（LWP），用户线程，再往深处，Linux对于进程/线程的处理。（我一开始写的时候没有打算写那么多，然后写的时候发现与这些概念都混淆了，虽然有些东西很早之前就理解了，但是出现一个新知识的时候，才发现需要理解的不够。）</p>
+<p>本文只涉及IO模型和进程间通信的相关内容。</p>
+<p>本人没有野心把这种繁杂的概念一一理清，毕竟这些概念除了和面试官聊（chui）得（niu）开（pi）以外，对于代码提升没有什么帮助。</p>
+<h2 id="DMA"><a href="#DMA" class="headerlink" title="DMA"></a>DMA</h2><p>在学习计算机组成原理的时候，提到过DMA的工作方式 </p>
+<p>​                         <img src="https://i.loli.net/2020/12/07/E4WKLQxe81qnVOD.png" srcset="/WennyAhhh.github.io/img/loading.gif"></p>
+<p>由于主存和DMA接口之间有一条数据通路，因此主存和设备交换信息时，不通过CPU，也不需要CPU暂停现行程序为设备服务，省去了保护现场和恢复线程，因此工作速度比程序中断的工作速度高。具体的内容可以参考《计算机组成原理》，有更加详细的解释。</p>
+<p>在这里需要指出的是，DMA对于CPU来说，只有传输开始和结束的时候需要发出中断指令，其他的时间都不需要CPU参与。所以是异步非阻塞。异步体现在IO的回调，是CPU被动的，非阻塞体现在CPU依然在运行其他程序。</p>
+<h2 id="应用级别"><a href="#应用级别" class="headerlink" title="应用级别"></a>应用级别</h2><blockquote>
+<p>对于同步异步来说，是对应<strong>两个或多个关系</strong>的。</p>
+<ul>
+<li><p>同步操作时，调用者需要等待被调用者返回结果，才会进行下一步操作</p>
+</li>
+<li><p>异步则相反，调用者不需要等待被调用者返回调用，即可进行下一步操作，被调用者通常依靠事件、回调等机制来通知调用者结果。</p>
+</li>
+</ul>
+<p>对于阻塞和非阻塞来说，是<strong>当前进程的状态</strong>。</p>
+<ul>
+<li><p>阻塞就是当前进程被挂起，暂时放弃CPU，直到调用线程调用完毕，并返回结果和状态。</p>
+</li>
+<li><p>非阻塞是不能立刻得到结果之前，该调用者不会阻塞当前进程。而是直接返回状态。</p>
+</li>
+</ul>
+</blockquote>
+<p>通俗一点来说，可以参考知乎上的“<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/19732473/answer/23434554">水壶模型</a>”(嗯，我懒得写了)。</p>
+<p>需要注意的是，这两个概念并非完全是是毫不相干的，因为异步会执行下一个任务，那么就必不可能阻塞。同理，同步也不会非阻塞而放弃等待返回值。关于异步处理的流程需要参照各种框架。比方说python的协程（同步阻塞），nginx（异步非阻塞）。</p>
+<p>但是有些框架，比如Node.js都是异步的，如果需要同步，那么就需要异步阻塞。</p>
+<p>对于轮询操作，是同步非阻塞的。</p>
+<p>当然，也有大佬提出：进程级通信的维度讨论时， 阻塞和同步（非阻塞和异步）就是一对同义词。</p>
+<p>同步异步模型也可以放入操作系统级别之中，虽然我认为这个套用毫无意义。</p>
+<h2 id="线程层次"><a href="#线程层次" class="headerlink" title="线程层次"></a>线程层次</h2><p>Stevens大神在UNP中提到了<strong>五种IO模型</strong>。(IO应该要打成I/O)</p>
+<ul>
+<li><strong>阻塞式IO</strong></li>
+<li><strong>非阻塞式IO</strong></li>
+<li><strong>IO复用</strong>（select，poll, epoll,其中epoll是后面出来的，没有写入UNP中。）</li>
+<li><strong>信号驱动式IO</strong>(SIGIO)</li>
+<li><strong>异步IO</strong></li>
+</ul>
+<p>其中前面四种都是<strong>同步IO</strong>,最后一种才是<strong>异步IO</strong>。暂且抛开同步异步，阻塞非阻塞的隔阂，什么是<strong>IO操作</strong>?一个输入操作通常包括两个不同阶段</p>
+<ol>
+<li><p>等待数据准备好，就绪</p>
+</li>
+<li><p>从内核缓冲区向进程复制数据</p>
+</li>
+</ol>
+<p>严格来说，如果发起recv请求，第一步并没有准备好，那么这个等待的过程就是阻塞，线程挂起，因为这个时间段是不需要消耗CPU的。</p>
+<p>但是，如果当前是二阶段，且是同步IO，那么用recv从内核缓存读取线程就不能算作阻塞。如果对这些理解不是很明白，可以先略过，回头再看。</p>
+<p>在理解这些概念的时候不要将应用级别的同步异步带入到这里，因为是不同级别的概念，也不要试图去找共同点，找到的只是你认为的共同点而已，没有意义。</p>
+<h3 id="阻塞式IO模型"><a href="#阻塞式IO模型" class="headerlink" title="阻塞式IO模型"></a>阻塞式IO模型</h3><p>最流行的IO模型就是阻塞式IO模型。在默认情况下，所有的套接字都是阻塞的。</p>
+<p>当我们调用recv读取数据，如果数据没有，那么从无数据准备好到有数据准备好（第一步），是个阻塞的过程。</p>
+<p>数据存在了之后，由recv复制到用户空间。</p>
+<p><img src="https://static.oschina.net/uploads/img/201604/20150405_VKYH.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="输入图片说明"></p>
+<p>数据只能在recv读入完成之后才返回。</p>
+<p>第一阶段同步阻塞</p>
+<h3 id="非阻塞式IO模型"><a href="#非阻塞式IO模型" class="headerlink" title="非阻塞式IO模型"></a>非阻塞式IO模型</h3><p>进程把一个套接字设置成非阻塞，在recv的时候，如果需要等待第一步，非阻塞就直接返回一个错误。可以循环发起recv请求，如下图。直到第四次调用有数据了，才会被复制到进程缓冲区。</p>
+<img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/20152818_DXcj.png" srcset="/WennyAhhh.github.io/img/loading.gif"/>
+
+<p>当对一个<strong>非阻塞描述符</strong>循环调用recv时，称之为<strong>轮询</strong>。</p>
+<p>第一阶段同步非阻塞</p>
+<p>在看到很多博文，在关于select中说到这个轮询。这其实是错误的，虽然这个名字很好听。应该叫做遍历更为恰当（当然是我自己的想法）</p>
+<h3 id="IO复用模型"><a href="#IO复用模型" class="headerlink" title="IO复用模型"></a>IO复用模型</h3><p>IO复用有select，poll和epoll，会着重讲解用的比较多的epoll 。</p>
+<p>利用IO复用，就可以阻塞在IO复用之上，而不是阻塞在真正的IO系统调用之上（不讲人话</p>
+<p>其实就是在第一阶段和第二阶段分开，让文件描述符阻塞在IO复用上，其中IO复用可能有多个文件描述符。我们阻塞IO复用，等待数据报套接字变为可读，然后返回套接字可读（也就是第一阶段完成，成为就绪事件）， 就调用recv进行第二阶段。</p>
+<p>​                          <img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/DQ@HGRK%5BWZ%5D5%60L%7DWW%7BM@6DW.png" srcset="/WennyAhhh.github.io/img/loading.gif"></p>
+<p>这里很简单地介绍一下几个IO复用，以后有机会补上（咕咕咕</p>
+<h4 id="select"><a href="#select" class="headerlink" title="select"></a>select</h4><p>​    在第一阶段完成后 select中包含了就绪事件，但是并不保证所有的事件都是就绪事件，所有需要遍历，时间复杂度为O（N）。</p>
+<h4 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h4><p>​    虽然比select能有更多的事件处理类型，但是依然存在O(N)的问题。</p>
+<h4 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h4><p>​    由于都是调用函数返回的，第一阶段是同步的，至于是不是非阻塞，如果timeout=0那么是非阻塞，如果timeout&gt;0那么会阻塞一段时间，-1为一直阻塞</p>
+<h3 id="信号驱动式IO模型"><a href="#信号驱动式IO模型" class="headerlink" title="信号驱动式IO模型"></a>信号驱动式IO模型</h3><p>这个模型用的少，其实还是很值得讨论的。可惜没人待见，少了热度，像极了人生</p>
+<p>利用信号，让内核在描述符就绪时发送SIGIO信号通知。如下图，通过建立SIGIO信号处理程序，建立完立刻返回，进程继续工作，也不需要进行轮询。等到第一阶段完成，发送一个SIGIO信号给信号处理程序，然后调用recv读出数据。</p>
+<p>​                          <img src="https://pic4.zhimg.com/80/6294fb7f7f5c22e39187a490c35ac6f0_720w.jpg?source=1940ef5c" srcset="/WennyAhhh.github.io/img/loading.gif" alt="img"></p>
+<p>最大的好处是在于等待数据包达到期间进程不被阻塞，主循环可以继续执行，只要等待信号处理函数的通知就可以了。</p>
+<p>由于返回的通知是回调，并且进程未阻塞，所以应该是第一阶段是异步非阻塞模型。</p>
+<h3 id="异步IO模型"><a href="#异步IO模型" class="headerlink" title="异步IO模型"></a>异步IO模型</h3><p>和信号驱动IO很像，但是区别在于信号驱动IO只能用信号通知用户已经准备完成，然后启动第二阶段，但是异步IO是将第二阶段也交给了内核处理，返回一个信号。</p>
+<p>​                    <img src="https://static.oschina.net/uploads/img/201604/20175459_gtgw.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="输入图片说明"></p>
+<p>Linux有AIO库，调用aio_read()函数，给内核传递描述符，缓冲区（需要告诉用户缓冲区的位置），缓冲大小，文件偏移（如果有多个线程同时写？）,并设置一个回调函数。用户进程在调用AIO时直接返回，进程不阻塞。</p>
+<p>由此来看同步IO在第二个阶段由于都是函数返回，且有数据，所以是同步非阻塞模型</p>
+<p>对于异步IO来说，两个阶段是一起的，异步非阻塞模型。</p>
+<h3 id="同步IO与异步IO"><a href="#同步IO与异步IO" class="headerlink" title="同步IO与异步IO"></a>同步IO与异步IO</h3><p>POSIX把这两个术语定义如下：</p>
+<ul>
+<li><strong>同步IO操作</strong> 导致请求进程阻塞，直到IO操作完成</li>
+<li><strong>异步IO操作</strong> 不导致请求进程阻塞</li>
+</ul>
+<p>什么是请求进程？recv就是。对于一个文件描述符设置为非阻塞，只有在没有数据就绪的时候，会直接返回。如果有数据，那么文件描述符阻塞不阻塞都无所谓，都需要从内核缓冲区写入到用户缓冲区，此时，上述四种都是阻塞的，直到IO操作。所以前四种都是同步IO。</p>
+<p>只有异步IO，在其中调用了AIO，在内核中写入数据，请求进程直接返回，才符合异步IO的定义。</p>
+<p>在IO时间中，同步和异步区分的是内核向应用程序通知的是何种IO事件（是就绪时间还是完成事件），以及该由谁来完成IO读写（是应用程序还是内核）</p>
+<p>一言蔽之，第二个阶段是谁完成的。如果是内核完成的，那么就是异步IO，如果是用户完成的，那么就是同步IO。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/categories/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Linux网络编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/Linux/">Linux</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/WennyAhhh.github.io/2020/12/10/epoll%E6%B5%85%E6%9E%90/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">epoll浅析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/WennyAhhh.github.io/2020/11/29/LeetCode%20493.%E7%BF%BB%E8%BD%AC%E5%AF%B9/">
+                        <span class="hidden-mobile">LeetCode 493.翻转对</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/WennyAhhh.github.io/js/debouncer.js" ></script>
+<script  src="/WennyAhhh.github.io/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/WennyAhhh.github.io/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/WennyAhhh.github.io/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "同步/异步，阻塞/非阻塞&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/WennyAhhh.github.io/js/local-search.js" ></script>
+  <script>
+    var path = "/WennyAhhh.github.io/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

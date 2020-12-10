@@ -1,0 +1,828 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/WennyAhhh.github.io/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/WennyAhhh.github.io/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chaij">
+  <meta name="keywords" content="">
+  <title>epoll浅析 - chaij&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/WennyAhhh.github.io/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/WennyAhhh.github.io/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/WennyAhhh.github.io/js/utils.js" ></script>
+  <script  src="/WennyAhhh.github.io/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <script src="https://WennyAhhh.github.io/live2d/autoload.js"></script>
+  <header style="height: 70vh;">
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/WennyAhhh.github.io/">&nbsp;<strong>chaij's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/WennyAhhh.github.io/img/article.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      chaij
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-12-10 21:47" pubdate>
+        2020年12月10日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      55
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">epoll浅析</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="epoll浅析"><a href="#epoll浅析" class="headerlink" title="epoll浅析"></a>epoll浅析</h1><blockquote>
+<p>承接上次写的博客，阻塞和非阻塞的那一部分，最开始是源于对epoll工作模式的疑惑。在看了很多大佬的博文和epoll的源码之后，整理了一下epoll的基本工作方式和用法。</p>
+<p>网上的博客良莠不齐，需要自己思考才能有所收获。（当然我这篇也只是我的个人见解，没有什么权威性，千万不要把我下面尤其是括号中的东西当做真真确确的东西。</p>
+</blockquote>
+<h2 id="epoll系列系统调用"><a href="#epoll系列系统调用" class="headerlink" title="epoll系列系统调用"></a>epoll系列系统调用</h2><p>epoll主要是下面三个函数。</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;says/epoll.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">epoll_create</span><span class="hljs-params">( 内核事件的大小 )</span></span>;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">epoll_ctl</span><span class="hljs-params">( 内核事件表的文件描述符，操作类型（添加，修改，删除），添加用户关系的文件描述符，事件类型)</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">epoll_wait</span><span class="hljs-params">( 内核事件表的文件描述符，就绪事件数组，最多监听多少个事件，阻塞时间)</span></span></code></pre></div>
+<p>epoll_create 用于<strong>创建</strong>一个内核事件表的文件描述符，一般一个程序只创建一个<br>epoll_ctl   用于<strong>操作</strong>用户关心的文件描述符。其中的<code>op</code>参数</p>
+<table>
+<thead>
+<tr>
+<th align="center">EPOLL_CTL_ADD</th>
+<th>添加</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">EPOLL_CTL_MOD</td>
+<td>修改</td>
+</tr>
+<tr>
+<td align="center">EPOLL_CTL_DEL</td>
+<td>删除</td>
+</tr>
+</tbody></table>
+<p>epoll_wait 它在一段<strong>超时等待</strong>事件内等待一组文件描述符上的事件。就是当IO事件的第一个阶段完成，文件描述符转化为就绪事件，就会触发这个函数。其中的细节后续再谈，</p>
+<p>epoll相对于poll和select，将触发就绪事件和注册事件分开。观察最常使用的<code>epoll_wait()</code>,就会发现：就绪事件，也就是第二个参数，是从函数内部通过指针传递过来的，相对而言入参很少。这样就避免了<code>select/poll</code>每次调用都要重新加入文件描述符/事件数组。</p>
+<p><code>select/pol</code>l每次都会返回全部的事件数组，但是其中还包括了没有就绪的事件，这个是我们不需要处理的。所以他们寻找就绪事件的事件复杂度为<code>O(n)</code>。<br>epoll返回的都是就绪事件，他寻找就绪事件的事件复杂度为<code>O(1)</code>。</p>
+<h2 id="概念和主要数据结构"><a href="#概念和主要数据结构" class="headerlink" title="概念和主要数据结构"></a>概念和主要数据结构</h2><p>在学习epoll的时候，我困惑于书上的一句话</p>
+<blockquote>
+<p>epoll_wait则不同，他采用的是回调的方式。内核监测到就绪的文件描述符时，将触发回调函数，回调函数就将该文件描述符上对应的事件插入内核就绪事件队列。</p>
+</blockquote>
+<p>既然触发了回调函数，那么epoll不是异步的么？那为什么说epoll是同步？</p>
+<p>回答此问题需要明白epoll的工作原理。我们需要一些了解一些东西。</p>
+<h3 id="同步，异步"><a href="#同步，异步" class="headerlink" title="同步，异步"></a>同步，异步</h3><p>同步异步在另外的博客中提到过，不再赘述.</p>
+<h3 id="mmap-epoll源码中没有使用"><a href="#mmap-epoll源码中没有使用" class="headerlink" title="mmap(epoll源码中没有使用)"></a>mmap(epoll源码中没有使用)</h3><p>(申请一块内存，将内核态内存映射到用户态，应该是从链表中的数据映射到数组中，避免copy操作。但是仔细思考过又觉得很别扭。查看<code>mmap</code>函数，他需要传递一个文件描述符，这个文件描述符是需要映射的文件。但是在<code>epoll_wait</code>中，需要映射的空间是一个链表，里面包含多个文件描述符，但是<code>epoll_wait</code>只提供一个地址。这样问题就复杂起来了，于是去查了一下这个问题，<strong>才发现！！！ epoll根本没有用mmap技术！</strong>，现在细品在侯捷老师那边听到的– <strong>源码面前了无秘密</strong>。感触良深）</p>
+<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p>用于在内核空间添加一个事件表，添加用户所关系的事件。对于普通的数组来说，一个文件描述符的插入或者删除操作，时间复杂度可以达到O(logN)。(至于为什么不用O(1)的哈希表?可能是因为像STL库中乘2太浪费空间时间了？如果不是这样操作，如果产生冲突可能时间复杂度也会到达O(N),当然只是我的猜测而已，大神的想法又不是我这种蒟蒻能揣测的)</p>
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><p>双向链表，用于存放就绪事件。（为什么是双向链表？</p>
+<h3 id="主要的数据结构"><a href="#主要的数据结构" class="headerlink" title="主要的数据结构"></a>主要的数据结构</h3><div class="hljs"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">eventpoll</span></span>
+<span class="hljs-class">&#123;</span>
+    <span class="hljs-keyword">spin_lock_t</span> lock;            <span class="hljs-comment">//对本数据结构的访问</span>
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">mutex</span> <span class="hljs-title">mtx</span>;</span>            <span class="hljs-comment">//防止使用时被删除</span>
+    <span class="hljs-keyword">wait_queue_head_t</span> wq;        <span class="hljs-comment">//sys_epoll_wait() 使用的等待队列</span>
+    <span class="hljs-keyword">wait_queue_head_t</span> poll_wait; <span class="hljs-comment">//file-&gt;poll()使用的等待队列</span>
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">list_head</span> <span class="hljs-title">rdllist</span>;</span>    <span class="hljs-comment">//事件满足条件的链表</span>
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">rb_root</span> <span class="hljs-title">rbr</span>;</span>          <span class="hljs-comment">//用于管理所有fd的红黑树</span>
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">epitem</span> *<span class="hljs-title">ovflist</span>;</span>      <span class="hljs-comment">//将事件到达的fd进行链接起来发送至用户空间</span>
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">epitem</span></span>
+<span class="hljs-class">&#123;</span>
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">rb_node</span> <span class="hljs-title">rbn</span>;</span>            <span class="hljs-comment">//用于主结构管理的红黑树</span>
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">list_head</span> <span class="hljs-title">rdllink</span>;</span>       <span class="hljs-comment">//事件就绪队列</span>
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">epitem</span> *<span class="hljs-title">next</span>;</span>           <span class="hljs-comment">//用于主结构体中的链表</span>
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">epoll_filefd</span> <span class="hljs-title">ffd</span>;</span>         <span class="hljs-comment">//每个fd生成的一个结构</span>
+    <span class="hljs-keyword">int</span> nwait;
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">list_head</span> <span class="hljs-title">pwqlist</span>;</span>     <span class="hljs-comment">//poll等待队列</span>
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">eventpoll</span> *<span class="hljs-title">ep</span>;</span>          <span class="hljs-comment">//该项属于哪个主结构体</span>
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">list_head</span> <span class="hljs-title">fllink</span>;</span>         <span class="hljs-comment">//链接fd对应的file链表</span>
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">epoll_event</span> <span class="hljs-title">event</span>;</span>  <span class="hljs-comment">//注册的感兴趣的事件,也就是用户空间的epoll_event</span>
+&#125;</code></pre></div>
+
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p>调用<code>epoll_create()</code>在内核中创建一个事件表，然后调用<code>epoll_ctl()</code>添加文件描述符，最后用<code>epoll_wait()</code>等待就绪事件发生。</p>
+<p>利用红黑树，可以防止同一个文件描述符<code>fd</code>重复添加到事件列表中。当添加了用户关心事件的文件描述符被加入到红黑树中时，都会有一个回调函数<code>ep_poll_callback</code>与这个文件描述符绑定。这个回调函数也就是上面提出问题的那个回调函数。</p>
+<p>当事件发生之后，就会触发这个回调函数，将该就绪事件添加到<strong>双向链表</strong>当中去。到这里，之前的问题就可以解答了： 这个回调函数只是将文件描述符添加到链表当中去，而不是用于返回<code>epoll_wait</code>。</p>
+<p>在调用epoll_wait时，只需要<strong>去重</strong>，然后返回。去重的原因，可能有事件重复触发了几次，我们只需要一次就够了。（双向链表，红黑树，是否可以提出一个问题 – 在内核空间中，连续的空间是否比较少。</p>
+<p><img src="https://img2018.cnblogs.com/blog/1300168/201811/1300168-20181121194549799-1443021669.jpg" srcset="/WennyAhhh.github.io/img/loading.gif" alt="img"></p>
+<h2 id="电平触发（LT-边沿触发（ET）"><a href="#电平触发（LT-边沿触发（ET）" class="headerlink" title="电平触发（LT)   边沿触发（ET）"></a>电平触发（LT)   边沿触发（ET）</h2><p>epoll对文件描述符的操作有两种模式，电平触发（LT）和边沿触发（ET）。默认情况下是电平触发。这两个模式是放在<code>epoll_event.events</code>中，用<code>|</code>进行设置。</p>
+<h3 id="LT"><a href="#LT" class="headerlink" title="LT"></a>LT</h3><p>对于采用LT工作模式的文件描述符，当<code>epoll_wait</code>检测到其上事件发生并将其通知到应用程序后，应用程序可以不立即处理该事件。这样，当应用程序下一次调用<code>epoll_wait</code>时，<code>epoll_wait</code>还会再次向应用程序通告此事件，直到该数据被处理。</p>
+<p>这是《Linux高性能服务器编程》的原话。为什么应用程序可以不立即处理这个事件？应用程序不是程序员自己写的么？事件来了为什么不进行操作？需要加什么标志位么？</p>
+<p>知乎大佬的<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/73231499">解释</a></p>
+<blockquote>
+<p>LT(level triggered)：LT是缺省的工作方式，并且同时支持block和no-block socket。在这种做法中，内核告诉你一个文件描述符是否就绪了，然后你可以对这个就绪的fd进行IO操作。如果你不作任何操作，内核还是会继续通知你的，所以，这种模式编程出错误可能性要小一点。传统的select/poll都是这种模型的代表。</p>
+</blockquote>
+<p>在LT模式下进行（需要设置偏移量？</p>
+<p>​            读： 如果需要读的内存缓冲区一次没有读完，即内核缓冲区还有数据可读，读事件就一直触发</p>
+<p>​            写： 发送缓冲区不满，可以继续写入数据，写事件一直触发</p>
+<p>LT的读写取决于buff</p>
+<p>在LT模式下，事件可以多次添加到<code>rdlist</code>链表当中，会被多次触发，可能会影响效率。</p>
+<p><del>假设在多线程的情况下，可能会出现多个线程对一个文件描述符操作，那么会产生竞态环境。如果有线程对文件描述符进行操作，那么在LT模式下就会一直处于就绪态。</del>（这是我在看ET模式 <code>EPOLLONESHOT</code>事件产生的联想，仅是个人理解。但是在后续看到<code>惊群效应</code>的时候，<code>epoll</code>之所以没有像<code>accpet</code>一样采取措施防止惊群，是考虑到用户可能要在多个线程中对同一个文件描述符进行操作（应该是读操作吧，写操作会产生竞态环境）,那么按照我的思想来说，就不允许多个线程对同一个文件描述符进行操作，所以可能是错误的）</p>
+<h3 id="ET"><a href="#ET" class="headerlink" title="ET"></a>ET</h3><p>在ET模式下，当<code>epoll-wait</code>检测到其上事件发生并将其上有事件发生并将此事件通知应用程序后，应用程序<strong>必须立即处理</strong>该事件，因为后续将不再通知这一事件（但是凡事都有例外）</p>
+<p>​            读：当有就绪的读事件发生，只要buff中有数据，就应该读完</p>
+<p>​            写： 只有buff中有数据没有写满，就一直写</p>
+<p>ET模式下是看状态的转化</p>
+<p>在ET模式下，每个文件描述符都应该是<strong>非阻塞</strong>的。如果文件描述符是阻塞的，那么由于读或者写操作而一直处于阻塞状态。而LT模式不会出现这种状况：第一次读取或者写一定可以成功，如果读或写完毕，就直接退出了。</p>
+<p>由于<code>socket</code>是文件描述符，所以服务器在读取的时候客户端会一直发送消息，这样即使是在ET模式下也会以为数据过大而多次触发。</p>
+<h4 id="EPOLLONESHOT事件"><a href="#EPOLLONESHOT事件" class="headerlink" title="EPOLLONESHOT事件"></a>EPOLLONESHOT事件</h4><p>我们期望一个socket上在任一时刻都只被一个线程处理。这时候我们可以在事件中注册<code>EPOLLONESHOT</code></p>
+<p>对于注册了<code>EPOLLONESHOT</code>事件的文佳描述符，操作系统最多触发其上注册的一个可读可写或者异常事件（固定了线程PID？）这样其他线程就无法对其进行修改。</p>
+<p>注册了<code>EPOLLONESHOT</code>事件的<code>socket</code>一旦被某个线程处理完毕，该线程就应该立即重置这个<code>socket</code>上的<code>EPOLLONESHOT</code>事件，以确保下一次可读，其他工作线程可以处理这个<code>socket</code></p>
+<h3 id="LT模式和ET模式例子"><a href="#LT模式和ET模式例子" class="headerlink" title="LT模式和ET模式例子"></a>LT模式和ET模式例子</h3><p>书上的源码，稍微修改了一下。虽然是能编译过的，但是不保证逻辑的正确性，可以参考。（后续有时间可以改一下，贴一堆垃圾上来确实不好，但是最近有些忙碌，英语听力把人听傻了）</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;sys/types.h&gt; //用于存放基本数据类型，一般系统编程都最好加上，有pid_t这种进程编号ID</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;sys/socket.h&gt;     //socket套接字函数</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;netinet/in.h&gt;       //定义数据结构socketaddr_in，这个数据结构用于存放ip地址</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;arpa/inet.h&gt;      //提供ip地址转换的函数</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;assert.h&gt;     //断言</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;  //标准输入输出</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;unistd.h&gt;  //系统编程函数</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;errno.h&gt;  //报错，在本例中需要用到GAGAIN等，非阻塞时如果缓冲区没有东西出现的错误</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string.h&gt;     //string函数,可以用memset取代bzero初始化</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;fcntl.h&gt;  //可以修改文件描述符,把文件描述符转化成非阻塞这个段代码需要背出来</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;sys/epoll.h&gt;  //IO复用</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;    //多线程函数库，创建一个内核级线程</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAX_EVENT_NUMBER 1024   <span class="hljs-comment">//最大事件的大小</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> BUFFER_SIZE 10  <span class="hljs-comment">//缓冲区大小</span></span>
+
+<span class="hljs-comment">//修改fd的状态，返回旧状态。fcntl这种函数完美符合2/8定律</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">setnonblocking</span><span class="hljs-params">( <span class="hljs-keyword">int</span> fd )</span></span>&#123;
+    <span class="hljs-keyword">int</span> old_option = fcntl( fd, F_GETFL );
+    <span class="hljs-keyword">int</span> new_option = old_option | O_NONBLOCK;
+    fcntl( fd, F_SETFL, new_option);
+    <span class="hljs-keyword">return</span> old_option;
+&#125;
+
+<span class="hljs-comment">//调用epoll_ctl函数，这里只是加入，并且只加入了读事件，也就是EPOLLIN，通过bool来确定是那个模式（LT/ET),默认是LT</span>
+<span class="hljs-comment">//我可以再添加写事件</span>
+<span class="hljs-comment">//可以处理带外数据</span>
+<span class="hljs-comment">//处理错误</span>
+<span class="hljs-comment">//一般来说（看教材的），EPOLLIN，EPOLLOUT，EOLLERR用的比较多</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">addfd</span><span class="hljs-params">( <span class="hljs-keyword">int</span> epollfd, <span class="hljs-keyword">int</span> fd, <span class="hljs-keyword">bool</span> enable_et)</span></span>&#123;
+    epoll_event ev;
+    ev.data.fd = fd;
+    <span class="hljs-comment">//这里是有读事件，但是没有写事件，其实可以加上，但是后天就要考试啦！！！</span>
+    ev.events = EPOLLIN;
+    <span class="hljs-keyword">if</span>( enable_et )&#123;
+        ev.events |= EPOLLET;
+    &#125; 
+    setnonblocking(fd);
+    epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &amp;ev);
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">newConnet</span><span class="hljs-params">(<span class="hljs-keyword">int</span> epollfd,<span class="hljs-keyword">int</span> listenfd,<span class="hljs-keyword">bool</span> flag)</span></span>&#123;
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">client_address</span>;</span>
+    <span class="hljs-keyword">socklen_t</span> client_addresslength = <span class="hljs-keyword">sizeof</span> (client_address);
+    <span class="hljs-keyword">int</span> connfd = accept( listenfd,(struct sockaddr*)&amp;client_address,&amp;client_addresslength);
+    addfd( epollfd,connfd,flag);
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">lt</span><span class="hljs-params">(epoll_event* events, <span class="hljs-keyword">int</span> number, <span class="hljs-keyword">int</span> epollfd, <span class="hljs-keyword">int</span> listenfd)</span></span>&#123;
+    <span class="hljs-keyword">char</span> buf[BUFFER_SIZE];
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;i &lt; number; i++)&#123;
+        <span class="hljs-keyword">int</span> sockfd = events[i].data.fd;
+        <span class="hljs-keyword">if</span>(sockfd == listenfd)&#123;
+            newConnet(epollfd,listenfd,<span class="hljs-literal">false</span>);
+        &#125;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(events[i].events &amp; EPOLLIN)&#123;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;event trigger once\n&quot;</span>);
+            <span class="hljs-built_in">memset</span>(buf ,<span class="hljs-string">&#x27;\0&#x27;</span>, BUFFER_SIZE);
+            <span class="hljs-keyword">int</span> ret = recv(sockfd,buf,BUFFER_SIZE<span class="hljs-number">-1</span>,<span class="hljs-number">0</span>);
+            <span class="hljs-keyword">if</span>(ret &lt;= <span class="hljs-number">0</span> )&#123;
+                close(sockfd);
+                <span class="hljs-keyword">continue</span>;
+            &#125;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;get %d bytes of connent: %s\n&quot;</span>,ret,buf);
+        &#125;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(events[i].events &amp; EPOLLOUT)&#123;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;events trigger once\n&quot;</span>);
+            <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* buf=<span class="hljs-string">&quot;chaij&#x27;s blog&quot;</span>;
+            <span class="hljs-keyword">int</span> ret = send(sockfd,buf,BUFFER_SIZE,<span class="hljs-number">0</span>);
+            <span class="hljs-keyword">if</span>(ret &lt;= <span class="hljs-number">0</span>)&#123;
+                close(sockfd);
+                <span class="hljs-keyword">continue</span>;
+            &#125;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;send %d bytes of connet\n&quot;</span>,ret);
+        &#125;
+        <span class="hljs-keyword">else</span>&#123;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;timeout\n&quot;</span>);
+        &#125;
+    &#125;    
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">et</span><span class="hljs-params">(epoll_event* events, <span class="hljs-keyword">int</span> number, <span class="hljs-keyword">int</span> epollfd, <span class="hljs-keyword">int</span> listenfd)</span></span>&#123;
+    <span class="hljs-comment">//在ET模式下，文件描述符一定是非阻塞的，原因详见笔记</span>
+    <span class="hljs-keyword">char</span> buf[ BUFFER_SIZE ];
+    <span class="hljs-keyword">for</span>( <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; number; i++)&#123;
+        <span class="hljs-keyword">int</span> sockfd = events[i].data.fd;
+        <span class="hljs-keyword">if</span>(sockfd == listenfd)&#123;
+            newConnet(epollfd,listenfd,<span class="hljs-literal">true</span>);
+        &#125;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( events[i].events &amp; EPOLLIN)&#123;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;events trigger read once\n&quot;</span>);
+            <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)&#123;
+                <span class="hljs-built_in">memset</span>(buf,<span class="hljs-string">&#x27;\0&#x27;</span>,BUFFER_SIZE);
+                <span class="hljs-keyword">int</span> ret = recv(sockfd, buf, BUFFER_SIZE<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>);
+                <span class="hljs-keyword">if</span>( ret &lt; <span class="hljs-number">0</span>)&#123;
+                    <span class="hljs-comment">//对于ET模式，也就是边缘触发，要求数据一次性读完。其实这样说是不正确的，当数据很大的时候，边缘读取其实到边缘也无法全部读取完毕</span>
+                    <span class="hljs-comment">//当无法读取的时候，会报错，EAGIN，意味再来一次，也就是说缓冲区已经被读取完毕</span>
+                    <span class="hljs-keyword">if</span>( (errno == EAGAIN ) || ( errno == EWOULDBLOCK) )&#123;
+                        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;read later\n&quot;</span>);
+                        <span class="hljs-keyword">break</span>;
+                    &#125;
+                    close(sockfd);
+                    <span class="hljs-keyword">break</span>;
+                &#125;
+                <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (ret == <span class="hljs-number">0</span>)&#123;
+                    close( sockfd );
+                &#125;
+                <span class="hljs-keyword">else</span>&#123;
+                    <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;get %d bytes of content: %s\n&quot;</span>, ret, buf );
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( events[i].events &amp; EPOLLOUT)&#123;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;events trigget write once\n&quot;</span>);
+            <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* buf=<span class="hljs-string">&quot;chaij&#x27;s blog&quot;</span>;
+            <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)&#123;
+                <span class="hljs-comment">//memset(buf,&#x27;\0&#x27;,BUFFER_SIZE);</span>
+                <span class="hljs-keyword">int</span> ret = send(sockfd, buf, BUFFER_SIZE<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>);
+                <span class="hljs-keyword">if</span>( ret &lt; <span class="hljs-number">0</span>)&#123;
+                    <span class="hljs-comment">//对于ET模式，也就是边缘触发，要求数据一次性读完。其实这样说是不正确的，当数据很大的时候，边缘读取其实到边缘也无法全部读取完毕</span>
+                    <span class="hljs-comment">//当无法读取的时候，会报错，EAGIN，意味再来一次，也就是说缓冲区已经被读取完毕</span>
+                    <span class="hljs-keyword">if</span>( (errno == EAGAIN ) || ( errno == EWOULDBLOCK) )&#123;
+                        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;write later\n&quot;</span>);
+                        <span class="hljs-keyword">break</span>;
+                    &#125;
+                    close(sockfd);
+                    <span class="hljs-keyword">break</span>;
+                &#125;
+                <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (ret == <span class="hljs-number">0</span>)&#123;
+                    close( sockfd );
+                &#125;
+                <span class="hljs-keyword">else</span>&#123;
+                    <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;write %d\n&quot;</span>,ret);
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">else</span>&#123;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;something else happened \n&quot;</span>);
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span>* argv[])</span></span>&#123;
+    
+    <span class="hljs-keyword">if</span>(argc &lt;= <span class="hljs-number">2</span>)&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ip/port is empty\n&quot;</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    &#125;
+    <span class="hljs-comment">//下面是最常用的socket编程过程</span>
+    <span class="hljs-comment">//listen 发生在第二次握手当中</span>
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* ip = argv[<span class="hljs-number">1</span>];
+    <span class="hljs-keyword">int</span> port = atoi(argv[<span class="hljs-number">2</span>]);
+    
+    <span class="hljs-keyword">int</span> ret=<span class="hljs-number">0</span>;
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">address</span>;</span>
+    <span class="hljs-built_in">memset</span>(&amp;address,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span> address);
+    address.sin_port = htons(port);
+    address.sin_family = AF_INET;
+    inet_pton(AF_INET,ip,&amp;address.sin_addr);
+
+    <span class="hljs-keyword">int</span> listenfd = socket( PF_INET, SOCK_STREAM,<span class="hljs-number">0</span>);
+    assert(ret != <span class="hljs-number">-1</span>);
+    <span class="hljs-comment">//因为需要通用的地址，所以需要转换成统一的。虽然size不一样，但是可以利用变长数组</span>
+    ret = bind( listenfd, (struct sockaddr* )&amp;address, <span class="hljs-keyword">sizeof</span> address);
+    assert(ret != <span class="hljs-number">-1</span>);
+
+    <span class="hljs-comment">//绑定之后需要accpet读取数据,</span>
+    <span class="hljs-comment">//为什么有了acppet还需要使用epoll？accpet只能对应一个套接字，用完了就废弃了。最关键的是accpet出来的套接字没有</span>
+    <span class="hljs-comment">//事件性质。</span>
+    ret = listen( listenfd, <span class="hljs-number">5</span>);
+    assert(ret != <span class="hljs-number">-1</span>);
+    epoll_event events [MAX_EVENT_NUMBER];
+    <span class="hljs-keyword">int</span> epollfd = epoll_create(<span class="hljs-number">5</span>);
+    assert(ret != <span class="hljs-number">-1</span>);
+    addfd(epollfd,listenfd,<span class="hljs-literal">true</span>);
+
+    <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)&#123;
+        <span class="hljs-keyword">int</span> ret = epoll_wait( epollfd, events, MAX_HANDLE_SZ, <span class="hljs-number">-1</span>); <span class="hljs-comment">//这里的-1设置成了阻塞，如果没有就绪事件将会一直阻塞</span>
+        <span class="hljs-keyword">if</span>( ret &lt; <span class="hljs-number">0</span>)&#123;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;epoll failure]\n&quot;</span>);
+            <span class="hljs-keyword">break</span>;
+        &#125;
+        <span class="hljs-comment">//水平触发</span>
+        lt(events,ret,epollfd,listenfd);
+        <span class="hljs-comment">//边缘触发</span>
+        <span class="hljs-comment">//et(events,ret,epollfd,listenfd);</span>
+    &#125;
+
+
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre></div>
+
+<h3 id="accpet-问题"><a href="#accpet-问题" class="headerlink" title="accpet 问题"></a>accpet 问题</h3><h4 id="如果accpet的监听文件描述符阻塞"><a href="#如果accpet的监听文件描述符阻塞" class="headerlink" title="如果accpet的监听文件描述符阻塞"></a>如果accpet的监听文件描述符阻塞</h4><p>这里需要提到的是<code>accpet</code>的问题，见Linux高性能服务器开发p80页所提到的，<code>accpet</code>只是从监听队列中取出连接，而无论连接处于何种状态。在上面列举的代码中，可以清楚的看见虽然连接已经断开，但是TCP队列里面依然有这个套接字</p>
+<p>需要注意的是，<code>RST复位键</code>却可以将已经完成的连接<strong>驱逐</strong>出TCP连接(UNP16.6章)，这样会出现一个定时问题。如果客户端先发送一个读写事件，然后监听事件就绪，acppet可以调用一个已经完成的连接，返回一个套接字。但是在此时，如果客户端发送了一个RST，就会导致accpet里面的连接被删除，这样由于监听事件还是过了if语句的，但是accpet里面却没有可以用的连接，这样会导致accpet阻塞，之后的操作将无法继续，直到有新的连接。所以需要吧<strong>监听事件设置为非阻塞</strong>。</p>
+<h4 id="监听描述符ET模式下accpet存在的问题"><a href="#监听描述符ET模式下accpet存在的问题" class="headerlink" title="监听描述符ET模式下accpet存在的问题"></a>监听描述符ET模式下accpet存在的问题</h4><p><code>accpet</code>还有一个问题，如果同时有多个连接到达，但是监听事件只触发一次，<code>accpet</code>也只触发一次，那么就会导致之后的连接无法被加入到<code>epoll</code>之中去,虽然<code>accpet</code>仍然有连接，但是只能通过之后的连接来触发监听事件的就绪，才能继续调用<code>accpet</code>，造成效率上的问题，也可能导致连接无法继续，所以要用<code>while</code>将连接的事件全部返回。</p>
+<p>这是只有ET模式下才会出现的问题，如果是LT模式下<code>acppet</code>还有事件可读，就会成为就绪事件被继续读取（所以改为LT模式应该也可以）</p>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>限于篇幅（嗯，我懒），主要<a target="_blank" rel="noopener" href="https://www.cnblogs.com/l2017/p/10830391.html">参考</a>这个大佬的，将的很详细（很多都看不明白），<del>我后续如果有时间可以细看</del></p>
+<p>源码不会骗人</p>
+<p> <img src="https://img2018.cnblogs.com/blog/1163199/201905/1163199-20190510100600759-1009402270.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="img"></p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a target="_blank" rel="noopener" href="http://blog.chinaunix.net/uid-28541347-id-4273856.html">http://blog.chinaunix.net/uid-28541347-id-4273856.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tianzeng/p/9997432.html">https://www.cnblogs.com/tianzeng/p/9997432.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/l2017/p/10830391.html">https://www.cnblogs.com/l2017/p/10830391.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/39792257">https://www.zhihu.com/question/39792257</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/categories/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Linux网络编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/Linux/">Linux</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/WennyAhhh.github.io/2020/12/08/%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%20%E9%98%BB%E5%A1%9E%E9%9D%9E%E9%98%BB%E5%A1%9E/">
+                        <span class="hidden-mobile">同步/异步，阻塞/非阻塞</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/WennyAhhh.github.io/js/debouncer.js" ></script>
+<script  src="/WennyAhhh.github.io/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/WennyAhhh.github.io/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/WennyAhhh.github.io/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "epoll浅析&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/WennyAhhh.github.io/js/local-search.js" ></script>
+  <script>
+    var path = "/WennyAhhh.github.io/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

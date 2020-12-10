@@ -1,0 +1,930 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/WennyAhhh.github.io/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/WennyAhhh.github.io/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chaij">
+  <meta name="keywords" content="">
+  <title>智能指针的粗浅总结 - chaij&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/WennyAhhh.github.io/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/WennyAhhh.github.io/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/WennyAhhh.github.io/js/utils.js" ></script>
+  <script  src="/WennyAhhh.github.io/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <script src="https://WennyAhhh.github.io/live2d/autoload.js"></script>
+  <header style="height: 70vh;">
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/WennyAhhh.github.io/">&nbsp;<strong>chaij's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/WennyAhhh.github.io/img/article.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      chaij
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-10-08 20:40" pubdate>
+        2020年10月8日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      57
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">智能指针的粗浅总结</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="智能指针的粗浅总结"><a href="#智能指针的粗浅总结" class="headerlink" title="智能指针的粗浅总结"></a>智能指针的粗浅总结</h1><hr>
+<p>&emsp;所谓资源就是,一旦向系统申请内存并且成功，则在使用完后还给进程。但是内存管理一直是C++麻烦的点。忘了delete,delete之后指针没有指向NULL，程序在delete之前抛出异常，对同一对象多次析构，等等痛点。我自己在学习Qt智能指针，以及之前做项目的时候遇上的内存泄露问题，使用了智能指针，但是只是知道有这个而已，没有系统总结过。对于此，查看了很多资料，略微总结了一下关于智能指针的一些用法以及原理。但是如果深究其中这篇文章是写不完的，所以只是粗略的总结一下。第一次写那么长的博文，会有一些纰漏，谅解一下。。</p>
+<h2 id="RAII"><a href="#RAII" class="headerlink" title="RAII"></a>RAII</h2><blockquote>
+<p>资源取得时机便是初始化时机（Resource Acquisition Is Initialization）RAII要求，<strong>资源的有效期与持有资源的对象的生命期严格绑定</strong>，即由对象的构造函数完成资源的分配（获取），同时由析构函数完成资源的释放。在这种要求下，只要对象能正确地析构，就不会出现资源泄露问题。 –wiki</p>
+</blockquote>
+<p>举个简单的例子。在使用STL容器的时候定<code>vector&lt;int&gt;</code>,<code>vector&lt;int&gt;</code>只是一个变量，源代码中，他在构造函数申请了资源，又使用了析构函数释放资源。<code>res</code>是建立在栈上的，而其申请的资源是放在堆上的，利用语言机制，当<code>res</code>跳出作用域的时候，调用了析构函数，完成了内存释放。</p>
+<p>用effective C++上的一个例子</p>
+<div class="hljs"><pre><code class="hljs cpp">
+<span class="hljs-function">FontHandle <span class="hljs-title">getFont</span><span class="hljs-params">()</span></span>;	<span class="hljs-comment">//工厂函数,取得资源，可以看做使用了new</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">releaseFont</span><span class="hljs-params">(FontHandle fh)</span></span>;   <span class="hljs-comment">//释放资源，可以看做使用了delete</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Font</span>&#123;</span>
+<span class="hljs-keyword">public</span>:
+	<span class="hljs-function"><span class="hljs-keyword">explicit</span> <span class="hljs-title">Font</span><span class="hljs-params">(FontHandle fh)</span>:<span class="hljs-title">f</span><span class="hljs-params">(fh)</span></span>&#123;	 <span class="hljs-comment">//构造函数里面申请了资源</span>
+  
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">operator</span> <span class="hljs-title">FontHandle</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>&#123;   <span class="hljs-comment">//隐式转换函数，用于获取原始资源，方便调用</span>
+		<span class="hljs-keyword">return</span> f;
+	&#125;
+	~Font() &#123;
+		releaseFont(f);		<span class="hljs-comment">//析构函数释放资源</span>
+	&#125;
+<span class="hljs-keyword">private</span>:
+	FontHandle f;
+&#125;;
+
+</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-comment">//主函数调用</span>
+<span class="hljs-function">Font <span class="hljs-title">f</span><span class="hljs-params">(getFont())</span></span>;  <span class="hljs-comment">//由于是在栈上实例化，所以f在退出作用域的时候会调用析构函数</span>
+<span class="hljs-keyword">int</span> newFontSize;
+...
+changFontSize(f,newFontSize);</code></pre></div>
+
+<p>当然这只是一个例子，并没有太高的实际意义。实际中，比如多线程之中，封装 <code>Mutex </code>，构造函数加锁，析构函数解锁。这一部分我们后面会再次提到。</p>
+<h2 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h2><p>利用RAII的思想，C++提供了智能指针模板，方便使用。<br>常用的智能指针针:<del>auto_ptr</del>, <code>unique_ptr, shared_ptr和weak_ptr</code>。当然Qt,boost 还提供了其他智能指针，这个留到后面细谈。 </p>
+<h3 id="unique-ptr"><a href="#unique-ptr" class="headerlink" title="unique_ptr"></a>unique_ptr</h3><p>先看一段代码</p>
+<div class="hljs"><pre><code class="hljs cpp">
+<span class="hljs-function"><span class="hljs-built_in">auto_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p1</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;auto&quot;</span>))</span></span>; <span class="hljs-comment">//RAII</span>
+<span class="hljs-built_in">auto_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; p2;
+p2=p1;
+</code></pre></div>
+
+<p>这在编译器中是可以通过的，但是<code>p1</code>会被重置为NULL。看上去很合理，因为这防止了多次析构。但是之后再次使用<code>p1</code>，可能会出现一些问题，会导致程序崩溃，这是我们不希望看见的，我们宁愿他在编译期间出错,所以我们<strong>尽量不使用auto_ptr</strong>。那么直接一点，不允许进行赋值操作，那就是<code>unique_ptr</code>。</p>
+<div class="hljs"><pre><code class="hljs cpp">
+<span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p1</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;auto&quot;</span>))</span></span>; 
+<span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; p2;
+p2=p1; <span class="hljs-comment">//编译器会报错</span>
+</code></pre></div>
+
+<p><code>unique_ptr</code>虽然不允许进行赋值操作，但是凡事都有例外嘛。</p>
+<p>1.如果<code>unique_ptr</code>是<strong>临时</strong>的右值，编译器就允许赋值。</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-comment">//C++ primer plus中的代码</span>
+<span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">demo</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">temp</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;T&quot;</span>))</span></span>;
+    <span class="hljs-keyword">return</span> temp;
+&#125;
+
+<span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; sp;
+ps=demo();  <span class="hljs-comment">//demo()先产生一个临时的unique_ptr&lt;string&gt; 变量，然后赋值</span></code></pre></div>
+
+<p>2.使用<code>std::move()</code>，其实就是和<code>auto_ptr</code>一样的效果，其中右值在赋值完只有会被置为NULL</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p1</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;auto&quot;</span>))</span></span>; 
+<span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; p2;
+p2=mov(p1); <span class="hljs-comment">//p1会被置为NULL</span></code></pre></div>
+
+<h3 id="shared-ptr"><a href="#shared-ptr" class="headerlink" title="shared_ptr"></a>shared_ptr</h3><p>需求总是多种多样的，我不管我就是需要赋值操作，我的程序就是使用多个指向同一个对象的指针，那么就应该使用shared_ptr，对底层资源使用“引用计数法”，构造的时候+1，赋值的时候+1，析构的时候-1,这个资源的计数器达到0的时候调用析构函数。</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">p1</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;auto&quot;</span>))</span></span>; 
+<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; p2;
+p2=p1;    <span class="hljs-comment">//此时p1不为NULL</span></code></pre></div>
+
+<p>但是这玩意功能比较多，很容易出错。比较常见的是循环引用问题，还有一些关于多线程下的问题，放在后面一个模块。</p>
+<p>问题代码</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FA</span>;</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FB</span>;</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FA</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+	<span class="hljs-built_in">shared_ptr</span>&lt;FB&gt; b;
+	FA()&#123;
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;A&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	&#125;
+	~FA() &#123;
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;~A&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	&#125;
+&#125;;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FB</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+	<span class="hljs-built_in">shared_ptr</span>&lt;FA&gt; a;
+	FB()&#123;
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&#x27;B&#x27;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	&#125;
+	~FB() &#123;
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;~B&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	&#125;
+&#125;;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+
+	<span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;FA&gt; <span class="hljs-title">fa</span><span class="hljs-params">(<span class="hljs-keyword">new</span> FA())</span></span>;
+	<span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;FB&gt; <span class="hljs-title">fb</span><span class="hljs-params">(<span class="hljs-keyword">new</span> FB())</span></span>;
+	fa-&gt;b = fb;
+	fb-&gt;a = fa;
+	<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;fa: &quot;</span> &lt;&lt; fa.use_count() &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; <span class="hljs-string">&quot;fb: &quot;</span> &lt;&lt; fb.use_count() &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs cpp">输出： 
+    A
+    B
+    fa: <span class="hljs-number">2</span>  fb: <span class="hljs-number">2</span></code></pre></div>
+
+<p>这里会发现，虽然使用了智能指针，但是却并没有调用其析构函数，因为这里产生了一个<strong>闭环</strong>，如果把这个环给拆了，<code>fa-&gt;b = fb;</code>或者<code>fb-&gt;a = fa;</code>删掉一个就可以了，就不展示了。</p>
+<p>你可以把一个构造函数看做<code>&#123;</code>，把一个析构函数看做<code>&#125;</code>，shared_ptr的计数器会在析构函数中自动-1，但是没有动用析构函数，自然就不会-1。再来看这个代码，fa,fb的计数器为2就不加解释了，在fb跳出作用域的时候，fb的计数器-1，但是没有置为0，所以不会调用析构函数，自然fb中的a的计数器不会-1，此时fb的计数器为1，fa的计数器还是为2。然后fa跳出作用域，计数器-1，fa中的b计数器不为0，所以也不调用fb析构函数，也不会调用fa的析构函数。这就导致两个对象到结束，计数器都是为1的。</p>
+<p>解决这个问题，就需要抛出另外一个智能指针weak_ptr</p>
+<h3 id="weak-ptr"><a href="#weak-ptr" class="headerlink" title="weak_ptr"></a>weak_ptr</h3><p>weak_ptr一般和shared_ptr配合使用（之前Qt尝试用QWeakPointer代替QPointer，使得QWeakPointer可以独立使用，但是后来又改回来了），用于解除循环引用。</p>
+<p>对于上例，应该改为：</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FA</span>;</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FB</span>;</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FA</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+	weak_ptr&lt;FB&gt; b;
+	FA()&#123;
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;A&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	&#125;
+	~FA() &#123;
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;~A&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	&#125;
+&#125;;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FB</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+	wead_ptr&lt;FA&gt; a;
+	FB()&#123;
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&#x27;B&#x27;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	&#125;
+	~FB() &#123;
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;~B&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	&#125;
+&#125;;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+
+	<span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;FA&gt; <span class="hljs-title">fa</span><span class="hljs-params">(<span class="hljs-keyword">new</span> FA())</span></span>;
+	<span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;FB&gt; <span class="hljs-title">fb</span><span class="hljs-params">(<span class="hljs-keyword">new</span> FB())</span></span>;
+	fa-&gt;b = fb;
+	fb-&gt;a = fa;
+	<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;fa: &quot;</span> &lt;&lt; fa.use_count() &lt;&lt; <span class="hljs-string">&quot;  &quot;</span> &lt;&lt; <span class="hljs-string">&quot;fb: &quot;</span> &lt;&lt; fb.use_count() &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs cpp">输出：
+	A
+	B
+	fa: <span class="hljs-number">1</span>  fb: <span class="hljs-number">1</span>
+	~B
+	~A</code></pre></div>
+
+<p>由此可见一个事实：weak_ptr<strong>不会更改其引用计数</strong>，但是，weak_ptr并没有重载-&gt;,*操作符，如果需要使用weak_ptr封装的对象，需要调用lock()函数，这个函数会返回一个shared_ptr，但是计数器为0，就返回<code>NULL</code></p>
+<p>而我们的任务就是在编译期间解开循环引用，但是并不保证在运行期间也不存在循环引用的问题。</p>
+<h3 id="原始指针"><a href="#原始指针" class="headerlink" title="原始指针"></a>原始指针</h3><p>智能指针一般都提供了<strong>get()成员函数</strong>，用来执行显式转换，也就是它会返回智能指针内部的原始指针（的复件。</p>
+<p>我们**尽量不要使用get()**，因为智能指针的初衷是将原生指针交给他来管理，get()就违背了这个初衷（试验了一下，vs2019的代码补全居然不显示get）。当然为了适配一些函数不得不去使用get，所以我们在使用get的时候需要小心。由于智能指针有些很der的操作我个人觉得在正常情况下不会有人这样去写，但是如果使用了get,在函数中，发生这样der的情况就可能出现：</p>
+<p>1.不要使用相同的内置指针来初始化(或者reset)多个智能指针</p>
+<p>2.不要delete get()返回的指针</p>
+<p>3.不要用get()初始化/reset另一个智能指针</p>
+<p>4.不要把this指针交给智能指针管理</p>
+<p>5.不要把一个原生指针给多个shared_ptr或者unique_ptr管理</p>
+<p>由于篇幅我原因（对，因为我懒），具体的例子我就不写了。。</p>
+<p>如果需要调用成员函数，由于几乎所有的智能指针都重载了*，-&gt;操作符，所以直接使用把智能指针当做一般的指针变量来使用就可以了。但是有时候需要传递参数，如果参数是 T*，那么传递一个智能指针类是无法识别的。有两种方式<br>1.使用原始指针T.get()<br>2.修改函数调用参数，如果是传递一个值，那么use_count()输出是2，如果是传递指针或者引用，use_count()是1。</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getResult</span><span class="hljs-params">(FA* fa)</span> </span>&#123;
+	<span class="hljs-built_in">cout</span> &lt;&lt; fa-&gt;k &lt;&lt; <span class="hljs-built_in">endl</span>;
+&#125;
+
+<span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;FA&gt; <span class="hljs-title">fa</span><span class="hljs-params">(<span class="hljs-keyword">new</span> FA(<span class="hljs-number">1</span>))</span></span>;
+<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;函数调用前：   &quot;</span> &lt;&lt; fa.use_count() &lt;&lt; <span class="hljs-built_in">endl</span>;
+getResult(fa.get());
+<span class="hljs-built_in">cout</span> &lt;&lt;<span class="hljs-string">&quot;函数调用后：   &quot;</span>&lt;&lt;fa.use_count() &lt;&lt; <span class="hljs-built_in">endl</span>;</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs cpp">输出：
+A
+函数调用前：   <span class="hljs-number">1</span>
+<span class="hljs-number">1</span>
+函数调用后：   <span class="hljs-number">1</span>
+~A</code></pre></div>
+
+<p>在函数传递的过程中，<strong>需要以独立语句将newed对象置入智能指针</strong>(effective C++条款17)</p>
+<div class="hljs"><pre><code class="hljs cpp">processWidget(<span class="hljs-built_in">shared_ptr</span>&lt;Widget&gt;(<span class="hljs-keyword">new</span> Widget),priority());</code></pre></div>
+
+<p>例如上述的函数调用，第一个shared_ptr参数分为可以两个部分，并且这个顺序是固定的：</p>
+<p>1.执行<code>new Widget</code>表达式</p>
+<p>2.调用<code>shared_ptr</code>构造函数</p>
+<p>但是由于会有<code>priority()</code>参数的存在，所以会产生这样的操作序列</p>
+<p>1.执行<code>new Widget</code>表达式</p>
+<p>2.调用priority</p>
+<p>3.调用<code>shared_ptr</code>构造函数</p>
+<p>这样，如果在调用<code>priority</code>函数的过程中发生了异常，那么调用<code>shared_ptr</code>就不会执行，没放入到智能指针当中去，造成内存泄露。当然你要是头铁不想动脑筋想一个临时变量的名字，<code>make_unique</code>会满足这个需求。</p>
+<h3 id="删除器"><a href="#删除器" class="headerlink" title="删除器"></a>删除器</h3><h4 id="删除器使用"><a href="#删除器使用" class="headerlink" title="删除器使用"></a>删除器使用</h4><p>之前有提到过，可以利用RAII的思想，解决互斥锁可能出现忘记解锁的情况。在effective C++中是这样实现的：</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Lock</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+	<span class="hljs-function"><span class="hljs-keyword">explicit</span> <span class="hljs-title">Lock</span><span class="hljs-params">(Mutex* _mutexPtr)</span>:<span class="hljs-title">mutexPtr</span><span class="hljs-params">(_mutexPtr)</span> </span>&#123;
+		lock(mutexPtr);  <span class="hljs-comment">//构造函数时锁定</span>
+	&#125;
+	~Lock() &#123;
+		unlock(mutexPtr);	<span class="hljs-comment">//析构函数解锁</span>
+	&#125;
+<span class="hljs-keyword">private</span>:
+	Mutex* mutexPtr;
+&#125;;
+</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs cpp">Mutex pm;  <span class="hljs-comment">//设置互斥锁</span>
+Lock(&amp;pm);</code></pre></div>
+
+<p>我们传入一个互斥锁，在构造函数加锁，析构函数解锁。看起来也许就是这样的，但是出现赋值操作时，也就是</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-function">Lock <span class="hljs-title">m1</span><span class="hljs-params">(&amp;pm)</span></span>;
+<span class="hljs-function">Lock <span class="hljs-title">m2</span><span class="hljs-params">(m1)</span></span>;</code></pre></div>
+
+<p>这样的操作会导致多次析构。所以赋值的操作是灾难性的，你可以选择继承<code>private Uncopyable</code>达到无法赋值的效果，也可以使用shared_ptr。但是选择计数器的方式会产生一个问题：传入一个互斥锁的指针，跳出作用域解锁，并且计数器为0，<strong>删除</strong>这个互斥锁。这是我们不想要的。所以无论是unique_ptr还是shared_ptr都可以指定删除器，默认的删除器是delete。</p>
+<p>对上例进行修改</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Lock</span>&#123;</span>
+<span class="hljs-keyword">public</span>:
+	<span class="hljs-function"><span class="hljs-keyword">explicit</span> <span class="hljs-title">Lock</span><span class="hljs-params">(Mutex* pm)</span>: <span class="hljs-title">mutexPtr</span><span class="hljs-params">(pm,unlock)</span></span>&#123;
+        lock(mutexPtr.get());
+    &#125;    
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-built_in">shared_ptr</span>&lt;Mutex&gt; mutexPtr;
+&#125;</code></pre></div>
+<h4 id="不要在没有定义的情况下在函数中使用delete"><a href="#不要在没有定义的情况下在函数中使用delete" class="headerlink" title="不要在没有定义的情况下在函数中使用delete"></a>不要在没有定义的情况下在函数中使用delete</h4><p>shared_ptr的删除器比较简单使用，unique_ptr的第二个删除传的是指针，所以一般传递一个函数指针。本来不算吧这个东西放上去的，但是在调试的时候发现一个很有趣的现象:</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FB</span>;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">del</span><span class="hljs-params">(FB* fb)</span> </span>&#123;
+	<span class="hljs-keyword">delete</span> fb;
+	<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;函数指针&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">uni</span> &#123;</span>
+	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(FB* fb)</span> </span>&#123;
+		<span class="hljs-keyword">delete</span> fb;
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;仿函数&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	&#125;
+&#125;;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FB</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+	FB(<span class="hljs-keyword">int</span> _k) :k(_k) &#123;
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&#x27;B&#x27;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	&#125;
+	~FB() &#123;
+		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;~B&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	&#125;
+	<span class="hljs-keyword">int</span> k;
+&#125;;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
+	<span class="hljs-comment">//C++ 11增加的decltype，返回的是类型 </span>
+	unique_ptr&lt;FB, decltype(del)*&gt; ptr1(new FB(2), del);
+    <span class="hljs-comment">//函数指针</span>
+	unique_ptr&lt;FB, void(*)(FB* )&gt; ptr2(new FB(2), del);
+    <span class="hljs-comment">//使用仿函数</span>
+	unique_ptr&lt;FB, uni&gt; ptr3(new FB(2));
+
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
+
+<p>跑一下试试</p>
+<div class="hljs"><pre><code class="hljs cpp">B
+B
+B
+仿函数
+函数指针
+函数指针</code></pre></div>
+
+<p>发现析构函数没有调用，产生了内存泄露。但是只要把函数或者仿函数放在类的定义之下，或者include “FA.h”,就成功调用了析构函数。</p>
+<p>原因在于，我在前面只声明了FA，但是FA里面有什么成员函数，多大都不知道，是一个不完整类型（Incomplete Type），所以无法触发析构函数。</p>
+<h3 id="为数组设计的智能指针"><a href="#为数组设计的智能指针" class="headerlink" title="为数组设计的智能指针"></a>为数组设计的智能指针</h3><p>STL中没有那种特别为“C++ 动态分配数组”而设计的类似shared_ptr以及unique_ptr的智能指针，原因在于，我们完全可以使用vector等容器来存放这些，所以就完全没有必要。但注意一点是，如果vector中存放的是指针，那么在释放vector的时候不会释放指针指向的资源，此时可以使用智能指针。</p>
+<p>当然如果你痛恨容器或者不屑用它，也可以使用上述的删除器，记得delete[]。</p>
+<p>boost库中提供了这种你需要的东西。boost::scoped_array 和 boost::shared_array </p>
+<h2 id="智能指针的线程安全"><a href="#智能指针的线程安全" class="headerlink" title="智能指针的线程安全"></a>智能指针的线程安全</h2><blockquote>
+<p>引用一下陈硕老师的<a target="_blank" rel="noopener" href="https://blog.csdn.net/solstice/article/details/8547547">例子</a></p>
+</blockquote>
+<p>考虑一个简单的场景，有 3 个 shared_ptr<Foo> 对象 x、g、n：</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;Foo&gt; <span class="hljs-title">g</span><span class="hljs-params">(<span class="hljs-keyword">new</span> Foo)</span></span>; <span class="hljs-comment">// 线程之间共享的 shared_ptr</span>
+<span class="hljs-built_in">shared_ptr</span>&lt;Foo&gt; x; <span class="hljs-comment">// 线程 A 的局部变量</span>
+<span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;Foo&gt; <span class="hljs-title">n</span><span class="hljs-params">(<span class="hljs-keyword">new</span> Foo)</span></span>; <span class="hljs-comment">// 线程 B 的局部变量</span></code></pre></div>
+
+<p><img src="https://i.loli.net/2020/10/11/gez5oHSk1yMJabB.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201009233059869"></p>
+<p><img src="https://i.loli.net/2020/10/11/wBP7ht1ADp5xQ3u.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201009233139541"></p>
+<p><img src="https://i.loli.net/2020/10/11/WKlz1mXTPNvODcr.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201009233346743"></p>
+<p>总结一下，shared_ptr的线程不安全性在于他需要操作两个成员，new出来的对象以及计数器。在多线程下，不能保证new出来一个对象一定能被放入shared_ptr中，也不能保证智能指针管理的引用计数的正确性。究其根本，shared_ptr的操作不是一气呵成的。</p>
+<blockquote>
+<ol>
+<li><p>同一个shared_ptr对象可以被多线程同时读取。</p>
+</li>
+<li><p>不同的shared_ptr对象可以被多线程同时修改。</p>
+</li>
+<li><p>同一个shared_ptr对象不能被多线程直接修改，但可以通过原子函数完成。</p>
+</li>
+</ol>
+</blockquote>
+<p>所以在创建一个shared_ptr的时候，使用C++ 11提供的<code>make_shared</code>模板。make_shared创建shared_ptr只申请一次内存，避免了上述错误，也提高了性能。</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; p1 = make_shared&lt;<span class="hljs-built_in">string</span>&gt;(<span class="hljs-number">10</span>, <span class="hljs-string">&#x27;9&#x27;</span>);  
+ 
+<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; p2 = make_shared&lt;<span class="hljs-built_in">string</span>&gt;(<span class="hljs-string">&quot;hello&quot;</span>);  
+ 
+<span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-built_in">string</span>&gt; p3 = make_shared&lt;<span class="hljs-built_in">string</span>&gt;();</code></pre></div>
+
+<p>当需要读写操作时，需要加锁。</p>
+<p>前面提到的unqiue_ptr也是 如此，虽然没有两个成员，但是在申请内存的时候只申请一次。</p>
+<p>总结一下：<br>    在创建智能智能的时候，<strong>使用make_shared以及unique_shared</strong></p>
+<h2 id="QT智能指针"><a href="#QT智能指针" class="headerlink" title="QT智能指针"></a>QT智能指针</h2><p>QT采用的的是半自动的内存管理机制。parent-chlid机制使QOBject类不需要进行delete，当然，是在指定parent的情况下。QT在引入了对象树的概念。当new一个QObject对象的时，指定其父对象，那么这个对象会加入到父对象的对象树之中。<strong>如果父对象被delete，那么子对象也会被delete</strong><br>但是会存在new的类不是QObject类，或者QObject没有指定父对象，QT提供了多种智能指针，相对于STL库中的智能指针，更加强大，或者说更适合QT。</p>
+<h3 id="QSharedPointer-QScopedPointer"><a href="#QSharedPointer-QScopedPointer" class="headerlink" title="QSharedPointer/QScopedPointer"></a>QSharedPointer/QScopedPointer</h3><p>QSharedPointer类似于std::shared_ptr,QScopedPointer类似于std::unique_ptr，用法也是类似的。这边就不再赘述。</p>
+<p>相对的，QT也提供了make_shared的替代，为QSharedPointer制作智能指针，利用完美转发，只分配一次内存。</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-keyword">auto</span> ptr = QSharedPointer&lt;QPushButton&gt;::create(<span class="hljs-string">&quot;Cancel&quot;</span>, <span class="hljs-keyword">this</span>);</code></pre></div>
+
+
+
+<h3 id="QScopedArrayPointer"><a href="#QScopedArrayPointer" class="headerlink" title="QScopedArrayPointer"></a>QScopedArrayPointer</h3><p>QT也提供了自动释放数组的智能指针</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">foo</span><span class="hljs-params">()</span></span>
+<span class="hljs-function">  </span>&#123;
+      <span class="hljs-function">QScopedArrayPointer&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">i</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>])</span></span>;
+      i[<span class="hljs-number">2</span>] = <span class="hljs-number">42</span>;
+      ...
+      <span class="hljs-keyword">return</span>; <span class="hljs-comment">// our integer array is now deleted using delete[]</span>
+  &#125;</code></pre></div>
+
+
+
+<h3 id="QWeakPointer"><a href="#QWeakPointer" class="headerlink" title="QWeakPointer"></a>QWeakPointer</h3><p>和weak_ptr一样，为了配合QSharedPointer引入的智能指针，有趣的是，曾经QWeakPointer取代过QPointer，但是已经是曾经啦，有兴趣的话可以查看此<a target="_blank" rel="noopener" href="https://www.devbean.net/2012/09/continue-using-qpointer/">链接</a></p>
+<h3 id="QSharedDataPointer"><a href="#QSharedDataPointer" class="headerlink" title="QSharedDataPointer"></a>QSharedDataPointer</h3><p>侵入式智能指针，用于进行<strong>隐式共享</strong>。隐式共享会即写时拷贝，常见的例子是string类。他是一个特殊的引用。例如</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">s1</span><span class="hljs-params">(<span class="hljs-string">&quot;hello&quot;</span>)</span></span>;
+<span class="hljs-built_in">string</span> s2=s1;
+<span class="hljs-built_in">string</span> s2=<span class="hljs-string">&quot;world&quot;</span>;</code></pre></div>
+
+<p>在第二行进行赋值操作时，进行的是浅拷贝，共享一个资源。但是在第三行需要进行重新赋值或者修改时，才需要将s1的资源拷贝过来放在s2中，并且修改。</p>
+<p>QSharedDataPointer做的工作类似。需要注意的是，复制过来的只有智能指针管理的资源，而不包括计数器。如果变量超出作用域，也会自动调用析构函数。</p>
+<p>在使用QSharedDataPointer模板时，必须继承QSharedData，实现隐式共享</p>
+<p>例子</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> :</span> <span class="hljs-keyword">public</span> QSharedData
+&#123;
+<span class="hljs-keyword">public</span>:
+    A(QString _str):str(_str)&#123;
+
+    &#125;
+    A(<span class="hljs-keyword">const</span> A&amp; other):QSharedData(other),str(other.str)&#123;
+
+    &#125;
+    QString str;
+&#125;;</code></pre></div>
+
+
+
+<div class="hljs"><pre><code class="hljs cpp">A* a=<span class="hljs-keyword">new</span> A(<span class="hljs-string">&quot;Wathc&quot;</span>);
+QSharedDataPointer&lt;A&gt;p1(a);
+<span class="hljs-function">QSharedDataPointer&lt;A&gt; <span class="hljs-title">p2</span><span class="hljs-params">(p1)</span></span>;
+p2-&gt;str=<span class="hljs-string">&quot;QCV&quot;</span>;
+qDebug()&lt;&lt;p1-&gt;str;
+qDebug()&lt;&lt;p2-&gt;str;</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs cpp">输出
+<span class="hljs-string">&quot;Wathc&quot;</span>
+<span class="hljs-string">&quot;QCV&quot;</span></code></pre></div>
+
+
+
+<h3 id="QExplicitlySharedDataPointer"><a href="#QExplicitlySharedDataPointer" class="headerlink" title="QExplicitlySharedDataPointer"></a>QExplicitlySharedDataPointer</h3><p>QExplicitlySharedDataPointer和QSharedPointer相反，他是<strong>显式共享</strong>，需要调用<code>detach()</code>函数，才能写时复制，不然和QSharedPointer一样，使用同一资源。具体用法</p>
+<div class="hljs"><pre><code class="hljs cpp">QExplicitlySharedDataPointer&lt;A&gt;p1(a);
+<span class="hljs-function">QExplicitlySharedDataPointer&lt;A&gt; <span class="hljs-title">p2</span><span class="hljs-params">(p1)</span></span>;
+p2.detach();
+p2-&gt;str=<span class="hljs-string">&quot;QCV&quot;</span>;
+qDebug()&lt;&lt;p1-&gt;str;
+qDebug()&lt;&lt;p2-&gt;str;</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs cpp">如果加了p2.detach();
+<span class="hljs-string">&quot;Wathc&quot;</span>
+<span class="hljs-string">&quot;QCV&quot;</span>
+如果不加
+<span class="hljs-string">&quot;QCV&quot;</span>
+<span class="hljs-string">&quot;QCV&quot;</span></code></pre></div>
+
+
+
+<h3 id="QPointer"><a href="#QPointer" class="headerlink" title="QPointer"></a>QPointer</h3><p>QPointer与其他智能指针不同，他只能接受QOBject和QOBject的子类。他在跳出作用域的时候不会自动调用析构函数。如果QOBject类没有指定父类，那么就需要手动Delete。</p>
+<p> 当QPointer<strong>跟踪的对象被析构了以后，任何共享其资源的指针，都会被自动置空</strong>，很好地防止了悬空指针。</p>
+<div class="hljs"><pre><code class="hljs cpp">QPointer&lt;QPushButton&gt; ptr=<span class="hljs-keyword">new</span> QPushButton;</code></pre></div>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/categories/C/">C++</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">智能指针</a>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">内存管理</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/WennyAhhh.github.io/2020/10/12/C++%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0-%E4%B8%80/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++多线程学习（一）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/WennyAhhh.github.io/2020/10/02/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E7%AE%97%E6%B3%95-%E4%BA%8C/">
+                        <span class="hidden-mobile">最短路径算法(二) Dijkstra算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/WennyAhhh.github.io/js/debouncer.js" ></script>
+<script  src="/WennyAhhh.github.io/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/WennyAhhh.github.io/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/WennyAhhh.github.io/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "智能指针的粗浅总结&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/WennyAhhh.github.io/js/local-search.js" ></script>
+  <script>
+    var path = "/WennyAhhh.github.io/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
