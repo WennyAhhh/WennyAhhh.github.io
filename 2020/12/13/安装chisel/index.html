@@ -257,7 +257,7 @@ git fetch origin
 sbt run</code></pre></div>
 
 <p>这里的chisel-tutorial的build.sbt需要修改。</p>
-<p>libraryDependencies的各种组件可能因为版本原因，需要升级。可以在<a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/edu.berkeley.cs%E4%B8%AD%E5%AF%BB%E6%89%BE%E6%9C%80%E6%96%B0%E7%9A%84%E6%A8%A1%E5%9D%97">https://mvnrepository.com/artifact/edu.berkeley.cs中寻找最新的模块</a></p>
+<p>libraryDependencies的各种组件可能因为版本原因，需要升级。可以在<a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/edu.berkeley.cs">https://mvnrepository.com/artifact/edu.berkeley.cs</a>      中寻找最新的模块</p>
 <div class="hljs"><pre><code class="hljs scala"><span class="hljs-comment">// build.sbt</span>
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">scalacOptionsVersion</span></span>(scalaVersion: <span class="hljs-type">String</span>): <span class="hljs-type">Seq</span>[<span class="hljs-type">String</span>] = &#123;
   <span class="hljs-type">Seq</span>() ++ &#123;
@@ -431,7 +431,7 @@ make install</code></pre></div>
 
 <p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201213124721369.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201213124721369"></p>
 <p>证明工具链什么的已经跑通了</p>
-<p>由于vcs仿真暂时没有尝试</p>
+<p>vcs仿真暂时没有尝试</p>
 <h1 id="Rocket-Chip"><a href="#Rocket-Chip" class="headerlink" title="Rocket-Chip"></a>Rocket-Chip</h1><div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment"># 下载官方库 rocket-chip</span>
 git <span class="hljs-built_in">clone</span> https://github.com/ucb-bar/rocket-chip.git
 <span class="hljs-built_in">cd</span> rocket-chip
