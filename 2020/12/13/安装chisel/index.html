@@ -1,0 +1,761 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/WennyAhhh.github.io/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/WennyAhhh.github.io/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chaij">
+  <meta name="keywords" content="">
+  <title>rocket环境配置 - chaij&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/WennyAhhh.github.io/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/WennyAhhh.github.io/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/WennyAhhh.github.io/js/utils.js" ></script>
+  <script  src="/WennyAhhh.github.io/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <script src="https://WennyAhhh.github.io/live2d/autoload.js"></script>
+  <header style="height: 70vh;">
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/WennyAhhh.github.io/">&nbsp;<strong>chaij's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/WennyAhhh.github.io/img/article.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      chaij
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-12-13 13:36" pubdate>
+        2020年12月13日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">rocket环境配置</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这个环境我安装了挺久了，分别在ubuntu和centos中安装。对于chisel和rocket-chip其实并没有改变多少。由于在rocket-chip的官方教程中有rocket-tools，我也没有多想就尝试安装，结果子模块会出现各种各样的问题，最开始由于渣渣校园网导致经常下载到一半断网，借了个教师账号才下载完成。编译中遇到各种稀奇古怪的编译问题，有些问题甚至google不到，最终都是通过下载官方github编译运行的。</p>
+<p>后来发现我的任务好像只是运行rocket-chip</p>
+<h1 id="安装chisel"><a href="#安装chisel" class="headerlink" title="安装chisel"></a>安装chisel</h1><p>安装sbt</p>
+<div class="hljs"><pre><code class="hljs bash">curl https://bintray.com/sbt/rpm/rpm &gt; bintray-sbt-rpm.repo
+sudo mv bintray-sbt-rpm.repo /etc/yum.repos.d/
+sudo yum install sbt
+<span class="hljs-comment"># 运行一下，可能需要很长时间</span>
+sbt</code></pre></div>
+<p>安装verilator</p>
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment">#Verilog源码编译成单/多线程的C++源代码来进行仿真</span>
+sudo yum install verilator</code></pre></div>
+
+<p>安装chisel</p>
+<div class="hljs"><pre><code class="hljs bash">wget https://github.com/chipsalliance/chisel3/archive/v3.4.0.tar.gz
+tar xvzf v3.4.0.tar.gz
+<span class="hljs-built_in">cd</span> chisel3-3.4.0</code></pre></div>
+
+<p>体验包</p>
+<div class="hljs"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/ucb-bar/chisel-tutorial.git
+<span class="hljs-built_in">cd</span> chisel-tutorial
+git fetch origin
+git fetch origin
+sbt run</code></pre></div>
+
+<p>这里的chisel-tutorial的build.sbt需要修改。</p>
+<p>libraryDependencies的各种组件可能因为版本原因，需要升级。可以在<a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/edu.berkeley.cs%E4%B8%AD%E5%AF%BB%E6%89%BE%E6%9C%80%E6%96%B0%E7%9A%84%E6%A8%A1%E5%9D%97">https://mvnrepository.com/artifact/edu.berkeley.cs中寻找最新的模块</a></p>
+<div class="hljs"><pre><code class="hljs scala"><span class="hljs-comment">// build.sbt</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">scalacOptionsVersion</span></span>(scalaVersion: <span class="hljs-type">String</span>): <span class="hljs-type">Seq</span>[<span class="hljs-type">String</span>] = &#123;
+  <span class="hljs-type">Seq</span>() ++ &#123;
+    <span class="hljs-comment">// If we&#x27;re building with Scala &gt; 2.11, enable the compile option</span>
+    <span class="hljs-comment">//  switch to support our anonymous Bundle definitions:</span>
+    <span class="hljs-comment">//  https://github.com/scala/bug/issues/10047</span>
+    <span class="hljs-type">CrossVersion</span>.partialVersion(scalaVersion) <span class="hljs-keyword">match</span> &#123;
+      <span class="hljs-keyword">case</span> <span class="hljs-type">Some</span>((<span class="hljs-number">2</span>, scalaMajor: <span class="hljs-type">Long</span>)) <span class="hljs-keyword">if</span> scalaMajor &lt; <span class="hljs-number">12</span> =&gt; <span class="hljs-type">Seq</span>()
+      <span class="hljs-keyword">case</span> _ =&gt; <span class="hljs-type">Seq</span>(<span class="hljs-string">&quot;-Xsource:2.11&quot;</span>)
+    &#125;
+  &#125;
+&#125;
+ 
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">javacOptionsVersion</span></span>(scalaVersion: <span class="hljs-type">String</span>): <span class="hljs-type">Seq</span>[<span class="hljs-type">String</span>] = &#123;
+  <span class="hljs-type">Seq</span>() ++ &#123;
+    <span class="hljs-comment">// Scala 2.12 requires Java 8. We continue to generate</span>
+    <span class="hljs-comment">//  Java 7 compatible code for Scala 2.11</span>
+    <span class="hljs-comment">//  for compatibility with old clients.</span>
+    <span class="hljs-type">CrossVersion</span>.partialVersion(scalaVersion) <span class="hljs-keyword">match</span> &#123;
+      <span class="hljs-keyword">case</span> <span class="hljs-type">Some</span>((<span class="hljs-number">2</span>, scalaMajor: <span class="hljs-type">Long</span>)) <span class="hljs-keyword">if</span> scalaMajor &lt; <span class="hljs-number">12</span> =&gt;
+        <span class="hljs-type">Seq</span>(<span class="hljs-string">&quot;-source&quot;</span>, <span class="hljs-string">&quot;1.7&quot;</span>, <span class="hljs-string">&quot;-target&quot;</span>, <span class="hljs-string">&quot;1.7&quot;</span>)
+      <span class="hljs-keyword">case</span> _ =&gt;
+        <span class="hljs-type">Seq</span>(<span class="hljs-string">&quot;-source&quot;</span>, <span class="hljs-string">&quot;1.8&quot;</span>, <span class="hljs-string">&quot;-target&quot;</span>, <span class="hljs-string">&quot;1.8&quot;</span>)
+    &#125;
+  &#125;
+&#125;
+ 
+name := <span class="hljs-string">&quot;MyChisel&quot;</span>
+version := <span class="hljs-string">&quot;3.2-SNAPSHOT&quot;</span>
+scalaVersion := <span class="hljs-string">&quot;2.12.6&quot;</span>
+crossScalaVersions := <span class="hljs-type">Seq</span>(<span class="hljs-string">&quot;2.11.12&quot;</span>, <span class="hljs-string">&quot;2.12.4&quot;</span>)
+ 
+resolvers += <span class="hljs-string">&quot;My Maven&quot;</span> at <span class="hljs-string">&quot;https://raw.githubusercontent.com/sequencer/m2_repository/master&quot;</span>
+<span class="hljs-comment">// bug fix from https://github.com/freechipsproject/chisel3/wiki/release-notes-17-09-14</span>
+scalacOptions ++= <span class="hljs-type">Seq</span>(<span class="hljs-string">&quot;-Xsource:2.11&quot;</span>)
+ 
+libraryDependencies += <span class="hljs-string">&quot;edu.berkeley.cs&quot;</span> %% <span class="hljs-string">&quot;chisel3&quot;</span> % <span class="hljs-string">&quot;3.4.0&quot;</span>
+libraryDependencies += <span class="hljs-string">&quot;edu.berkeley.cs&quot;</span> %% <span class="hljs-string">&quot;chisel-iotesters&quot;</span> % <span class="hljs-string">&quot;1.5.0&quot;</span>
+libraryDependencies += <span class="hljs-string">&quot;edu.berkeley.cs&quot;</span> %% <span class="hljs-string">&quot;chisel-testers2&quot;</span> % <span class="hljs-string">&quot;0.2.2&quot;</span>
+libraryDependencies += <span class="hljs-string">&quot;edu.berkeley.cs&quot;</span> %% <span class="hljs-string">&quot;rocketchip&quot;</span> % <span class="hljs-string">&quot;1.2.2&quot;</span>
+ 
+scalacOptions ++= scalacOptionsVersion(scalaVersion.value)
+javacOptions ++= javacOptionsVersion(scalaVersion.value)</code></pre></div>
+
+<p>可以尝试运行一下</p>
+<div class="hljs"><pre><code class="hljs scala"><span class="hljs-comment">// 在chisel-tutorial/src/main/scala文件夹里创建一个文件，命名为AND.scala，输入以下内容并保存：</span>
+<span class="hljs-comment">// AND.scala</span>
+<span class="hljs-keyword">package</span> test
+ 
+<span class="hljs-keyword">import</span> chisel3._
+<span class="hljs-keyword">import</span> chisel3.experimental._
+ 
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AND</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RawModule</span> </span>&#123;
+  <span class="hljs-keyword">val</span> io = <span class="hljs-type">IO</span>(<span class="hljs-keyword">new</span> <span class="hljs-type">Bundle</span> &#123;
+    <span class="hljs-keyword">val</span> a = <span class="hljs-type">Input</span>(<span class="hljs-type">UInt</span>(<span class="hljs-number">1.</span><span class="hljs-type">W</span>))
+    <span class="hljs-keyword">val</span> b = <span class="hljs-type">Input</span>(<span class="hljs-type">UInt</span>(<span class="hljs-number">1.</span><span class="hljs-type">W</span>))
+    <span class="hljs-keyword">val</span> c = <span class="hljs-type">Output</span>(<span class="hljs-type">UInt</span>(<span class="hljs-number">1.</span><span class="hljs-type">W</span>))
+  &#125;)
+ 
+  io.c := io.a &amp; io.b
+&#125;</code></pre></div>
+
+
+
+<div class="hljs"><pre><code class="hljs scala"><span class="hljs-comment">// 在chisel-tutorial/src/test/scala文件夹里创建一个文件，命名为ANDtest.scala，输入以下内容并保存</span>
+<span class="hljs-comment">// ANDtest.scala</span>
+<span class="hljs-keyword">package</span> test
+ 
+<span class="hljs-keyword">import</span> chisel3._
+ 
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">testMain</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">App</span> </span>&#123;
+  <span class="hljs-type">Driver</span>.execute(args, () =&gt; <span class="hljs-keyword">new</span> <span class="hljs-type">AND</span>)
+&#125;</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment"># 在chisel-tutorial中运行</span>
+sbt <span class="hljs-string">&quot;test:runMain test.testMain --target-dir generated/and&quot;</span></code></pre></div>
+
+<p>结果可以在generate的中得到需要的Verilog代码</p>
+<h1 id="Rocket-tools"><a href="#Rocket-tools" class="headerlink" title="Rocket-tools"></a>Rocket-tools</h1><p>本安(xin)装(lu)教(li)程(cheng)不保证时效性。以官方教程为主。注意区分路径，还有google的蛋疼翻译。</p>
+<p>官网的环境依赖，但是在centos有些不可以用，有些版本太低了。不建议没有代理工具安装，即使可以利用码云，zygxsq.cn。因为他包括很多子模块，地址也都是github。当然要是有心情的话可以慢慢修改<code>.gitmoudle</code>文件，但是限于子模块实在太多，这个项目的子模块嵌套了三层，不建议这样做。</p>
+<p>在ubuntu上有时候automake版本够了仍然报错</p>
+<p>gcc版本要高</p>
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment"># 升级gcc</span>
+yum install -y centos-release-scl
+yum install -y devtoolset-6-gcc devtoolset-8-gcc-c++
+<span class="hljs-built_in">source</span> /opt/rh/devtoolset-8/<span class="hljs-built_in">enable</span></code></pre></div>
+
+
+
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment"># 官方依赖，有些在centos官方库没有，有些版本太低。</span>
+sudo yum -y install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment"># automake官方库版本低，查到的资料里还有autoconf，顺便也升级了一下</span>
+sudo rpm -e --nodeps autoconf-2.63 
+wget http://ftp.gnu.org/gnu/autoconf/autoconf-2.70.tar.gz
+tar zxvf autoconf-2.70.tar.gz
+<span class="hljs-built_in">cd</span> autoconf-2.70
+sudo ./configure --prefix=/usr
+sudo make &amp;&amp; make install
+
+rpm -e --nodeps automake
+wget http://ftp.gnu.org/gnu/automake/automake-1.16.3.tar.gz
+tar zxvf automake-1.16.3.tar.gz
+<span class="hljs-built_in">cd</span> automake-1.16.3
+./configure --prefix=/usr
+make &amp;&amp; make install</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment"># 安装 device-tree-compiler</span>
+yum install dtc
+<span class="hljs-comment"># zlib</span>
+yum install -y zlib zlib-devel</code></pre></div>
+
+<p>前面只是<strong>最简单</strong>的前置工作。</p>
+<p>后续工作中需要注意的是路径地址</p>
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment"># 编译之后保存的地址</span>
+<span class="hljs-built_in">export</span> RISCV=/home/chaikaichen/to/install/riscv/toolchain
+<span class="hljs-comment"># 保存在运行在riscv上的工具，比如gcc。</span>
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$RISCV</span>/bin:<span class="hljs-variable">$PATH</span></code></pre></div>
+
+
+
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment"># 设置环境变量，注意路径</span>
+<span class="hljs-built_in">export</span> RISCV=/home/chaikaichen/to/install/riscv/toolchain
+
+<span class="hljs-comment"># rocket工具链</span>
+https://github.com/chipsalliance/rocket-tools
+<span class="hljs-comment"># 下载子模块。这个子模块相对而言很大，其中有个riscv-qemu，官方master已经关了，所以没有git https了，只有git://。这个url导致代理直接失效，70k/s已经很幸福了</span>
+<span class="hljs-comment"># 当遇到这个子模块，玄学一点，多试一试 git submodule update --init --recursive ，诚意够了，速度就上300K/s。</span>
+git submodule update --init --recursive</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment"># N是几个核的意思，取决于cpu或者虚拟机设置。手冷可以多开一点取暖</span>
+<span class="hljs-built_in">export</span> MAKEFLAGS=<span class="hljs-string">&quot;<span class="hljs-variable">$MAKEFLAGS</span> -jN&quot;</span>
+<span class="hljs-comment"># 自带的riscv-gnu-toolchain版本有些低，make的时候出现error。需要重下</span>
+rm -rf riscv-gnu-toolchain
+git <span class="hljs-built_in">clone</span> https://github.com/riscv/riscv-gnu-toolchain
+<span class="hljs-built_in">cd</span> riscv-gnu-toolchain
+git submodule update --init --recursive
+./configure --prefix=<span class="hljs-variable">$RISCV</span>
+make
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$RISCV</span>/bin:<span class="hljs-variable">$PATH</span>
+<span class="hljs-comment"># 会有各种各样的错误，我差点给跪下了</span>
+<span class="hljs-comment"># 需要编译很长时间，还会有各种error和fatal。看到warning就谢天谢地吧</span>
+<span class="hljs-built_in">cd</span> ..
+./build.sh</code></pre></div>
+
+<p>我在编译运行时，有时候运行会错误，导致后续的无法编译。例如我在运行过程中<code>riscv-tests</code>无法编译。可能不是环境问题<del>不知道的统统是版本问题</del>.直接删除这个子模块，在官方github中下载，编译，例如<code>riscv-tests</code>。但是此方法一定要先编译运行<code>riscv-gnu-toolchain</code>因为要用到gcc</p>
+<div class="hljs"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/riscv/riscv-tests
+<span class="hljs-built_in">cd</span> riscv-tests
+git submodule update --init --recursive
+autoconf
+./configure --prefix=<span class="hljs-variable">$RISCV</span>/target
+make
+make install</code></pre></div>
+
+<p>路径里面好像没有<code>pk</code>,那就直接放进去</p>
+<div class="hljs"><pre><code class="hljs awk">cp pk dummy_payload config.status bbl_payload bbl <span class="hljs-regexp">/home/</span>chaij<span class="hljs-regexp">/to/i</span>nstall<span class="hljs-regexp">/riscv/</span>toolchain/bin</code></pre></div>
+
+<p>测试</p>
+<p>编写hello.c文件</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>
+<span class="hljs-function"></span>&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello World!\n&quot;</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
+
+<p>编译运行</p>
+<div class="hljs"><pre><code class="hljs bash">riscv64-unknown-elf-gcc  -o  hello hello.c</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs bash">spike pk hello</code></pre></div>
+
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201213124721369.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201213124721369"></p>
+<p>证明工具链什么的已经跑通了</p>
+<p>由于vcs仿真暂时没有尝试</p>
+<h1 id="Rocket-Chip"><a href="#Rocket-Chip" class="headerlink" title="Rocket-Chip"></a>Rocket-Chip</h1><div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment"># 下载官方库 rocket-chip</span>
+git <span class="hljs-built_in">clone</span> https://github.com/ucb-bar/rocket-chip.git
+<span class="hljs-built_in">cd</span> rocket-chip
+<span class="hljs-comment"># 下载子模块，这个子模块还算简单</span>
+git submodule update --init</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> rocket-chip
+sbt
+<span class="hljs-built_in">cd</span> ..
+<span class="hljs-built_in">cd</span> rocket-chip/chisel3
+sbt
+<span class="hljs-built_in">cd</span> ..
+<span class="hljs-built_in">cd</span> rocket-chip/firrtl
+sbt
+<span class="hljs-built_in">cd</span> ..
+<span class="hljs-built_in">cd</span> rocket-chip/vsim
+<span class="hljs-comment"># 如果可以生成generated-src代表生成了RTL</span>
+make verilog CONFIG=freechips.rocketchip.system.DefaultSmallConfig</code></pre></div>
+
+
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_26657901/article/details/89115070">https://blog.csdn.net/qq_26657901/article/details/89115070</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mikewolf2002/p/10799553.html">https://www.cnblogs.com/mikewolf2002/p/10799553.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/a_weiming/article/details/87651285?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control">https://blog.csdn.net/a_weiming/article/details/87651285?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34291505/article/details/87365907">https://blog.csdn.net/qq_34291505/article/details/87365907</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41976613/article/details/89629372">https://blog.csdn.net/qq_41976613/article/details/89629372</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/chipsalliance/rocket-tools">https://github.com/chipsalliance/rocket-tools</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ucb-bar/chisel-tutorial">https://github.com/ucb-bar/chisel-tutorial</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/chipsalliance/rocket-chip">https://github.com/chipsalliance/rocket-chip</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/categories/riscv/">riscv</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/riscv/">riscv</a>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/rocket/">rocket</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/WennyAhhh.github.io/2020/12/10/epoll%E6%B5%85%E6%9E%90/">
+                        <span class="hidden-mobile">epoll浅析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/WennyAhhh.github.io/js/debouncer.js" ></script>
+<script  src="/WennyAhhh.github.io/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/WennyAhhh.github.io/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/WennyAhhh.github.io/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "rocket环境配置&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/WennyAhhh.github.io/js/local-search.js" ></script>
+  <script>
+    var path = "/WennyAhhh.github.io/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
