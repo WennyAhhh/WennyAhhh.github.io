@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="chaij">
   <meta name="keywords" content="">
-  <title>LeetCode 493.翻转对 - chaij&#39;s blog</title>
+  <title>LeetCode 300.最长递增子序列 - chaij&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-11-29 20:35" pubdate>
-        2020年11月29日 晚上
+      <time datetime="2020-12-26 10:39" pubdate>
+        2020年12月26日 上午
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      591 字
+      725 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      11
        分钟
     </span>
   
@@ -229,86 +229,112 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">LeetCode 493.翻转对</h1>
+            <h1 style="display: none">LeetCode 300.最长递增子序列</h1>
             
             <div class="markdown-body" id="post-body">
-              <h1 id="LeetCode-493-翻转对"><a href="#LeetCode-493-翻转对" class="headerlink" title="LeetCode 493.翻转对"></a>LeetCode 493.翻转对</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>原题<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-pairs/">链接</a></p>
+              <h1 id="300-最长递增子序列"><a href="#300-最长递增子序列" class="headerlink" title="300. 最长递增子序列"></a>300. 最长递增子序列</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-increasing-subsequence/submissions/">LeetCode</a></p>
 <blockquote>
-<blockquote>
-<p>给定一个数组 nums ，如果 i &lt; j 且 nums[i] &gt; 2*nums[j] 我们就将 (i, j) 称作一个重要翻转对。</p>
+<p>给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。</p>
+<p>子序列是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。</p>
 </blockquote>
-<p>你需要返回给定数组中的重要翻转对的数量。</p>
-<p>示例 1:</p>
-<p>输入: [1,3,2,3,1]<br>输出: 2</p>
-<p>示例 2:</p>
-<p>输入: [2,4,3,5,1]<br>输出: 3</p>
-<p>注意:</p>
-<p>​    给定数组的长度不会超过50000。<br>​    输入数组中的所有数字都在32位整数的表示范围内。</p>
-</blockquote>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><blockquote>
-<p>输入: [1,3,2,3,1]<br>输出: 2</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>res1: 1 3 2 3 1 （依据题意每个*2</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>res2: 2 6 4 6 2</td>
-</tr>
-</tbody></table>
-<p>这道题目就变成了，给定一个位置pos，res2[pos-n] 比 res1[pos]大的值的数量</p>
-<p>那么朴素的思路就是，建一个哈希表，然后从后往前遍历，对于每个res1[i],只需要遍历哈希表，找出比res1[i]小的个数，记录下来，然后在哈希表中存入res2[i]。</p>
-<p>首先，数的大小范围是32位整数，包括负数，导致自己创造哈希表需要加上一个偏移量，还有数组过大的问题。×2还会导致整数溢出。</p>
-<p>每次都要遍历一次哈希表，时间复杂度过高。如果使用前缀和，会导致插入操作的时间复杂度为O(n);</p>
-<h3 id="离散化"><a href="#离散化" class="headerlink" title="离散化"></a>离散化</h3><p>可以使用一个<code>unordered_map</code>进行离散化数据。由于需要比较的是两个数组的所有值，所以需要吧两个数组合在一起，排序，编号。</p>
-<h3 id="线段树"><a href="#线段树" class="headerlink" title="线段树"></a>线段树</h3><p>线段树是用于求前缀和，插入的时间复杂度是O(logN),求前缀和的时间复杂是O(logN)。</p>
+<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>dp[i] 表示 nums数组中0 ~ i之间的最大上升序列</p>
+<p>状态转移方程:</p>
+<p>​<br>$$<br>dp[i] = max(dp[j]) + 1,  0 &lt;j&lt; i-1, nums[j] &lt; nums[i]<br>$$</p>
 <div class="hljs"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
 <span class="hljs-keyword">public</span>:
-    <span class="hljs-keyword">int</span> n=<span class="hljs-number">1</span>;
-    <span class="hljs-keyword">int</span> fa[<span class="hljs-number">100010</span>];
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">lowbit</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;
-        <span class="hljs-keyword">return</span> x&amp;-x;
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">lengthOfLIS</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> n = nums.size();
+        <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">dp</span><span class="hljs-params">(n)</span></span>;
+        <span class="hljs-keyword">int</span> imax = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span> ;i &lt; n; i++)&#123;
+            dp[i] = <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++)&#123;
+                <span class="hljs-keyword">if</span>(nums[j] &lt; nums[i]) &#123;
+                    dp[i] = max(dp[i], dp[j] + <span class="hljs-number">1</span>);
+                &#125;
+            &#125;
+            imax = max(imax, dp[i]);
+        &#125;
+        <span class="hljs-keyword">return</span> imax;
     &#125;
+&#125;;</code></pre></div>
 
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">ask</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;
-        <span class="hljs-keyword">int</span> res=<span class="hljs-number">0</span>;
-        <span class="hljs-keyword">while</span>(x&gt;<span class="hljs-number">0</span>)&#123;
-            res+=fa[x];
-            x-=lowbit(x);
+<p>$$<br>时间复杂度为： O(n^2)<br>$$</p>
+<h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h2><p>暴力＋剪枝</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201226102240027.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201226102240027"></p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">int</span> imax=<span class="hljs-number">0</span>;
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getLength</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums,<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; result,<span class="hljs-keyword">int</span> position)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(position&lt;result.size())&#123;
+            <span class="hljs-keyword">if</span>(result[position])&#123;
+                <span class="hljs-keyword">return</span> result[position];
+            &#125;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=position+<span class="hljs-number">1</span>;i&lt;nums.size();i++)&#123;
+                <span class="hljs-keyword">if</span>(nums[i]&gt;nums[position])&#123;
+                    result[position]=max(result[position],getLength(nums,result,i)+<span class="hljs-number">1</span>);
+                &#125;
+            &#125;
+            <span class="hljs-keyword">return</span> result[position]?result[position]:<span class="hljs-number">1</span>;
         &#125;
-        <span class="hljs-keyword">return</span> res;
+        <span class="hljs-keyword">else</span>&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
     &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x,<span class="hljs-keyword">int</span> k)</span></span>&#123;
-        <span class="hljs-keyword">while</span>(x&lt;=n)&#123;
-            fa[x]+=k;
-            x+=lowbit(x);
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">lengthOfLIS</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;
+        <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">result</span><span class="hljs-params">(nums.size(),<span class="hljs-number">0</span>)</span></span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;nums.size();i++)&#123;
+            imax=max(imax,getLength(nums,result,i));
         &#125;
+        <span class="hljs-keyword">return</span> imax;
     &#125;
+&#125;;</code></pre></div>
 
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">reversePairs</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;
-        <span class="hljs-comment">//前缀和和树状数组</span>
-        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt; tem;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span>&amp; e:nums)&#123;
-            tem.push_back(e);
-            <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> k=e;
-            tem.push_back(k*<span class="hljs-number">2</span>);
+
+
+<h2 id="贪心-二分"><a href="#贪心-二分" class="headerlink" title="贪心+二分"></a>贪心+二分</h2><p>这个方法其实很巧妙</p>
+<p>如果我们要使上升子序列尽可能的长，则我们需要让序列上升得尽可能慢，因此我们希望每次在上升子序列最后加上的那个数尽可能的小。</p>
+<p>下面的是官方的解析，官方还是一如既往的严谨。</p>
+<blockquote>
+<p>作者：LeetCode-Solution<br>链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/zui-chang-shang-sheng-zi-xu-lie-by-leetcode-soluti/">https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/zui-chang-shang-sheng-zi-xu-lie-by-leetcode-soluti/</a><br>来源：力扣（LeetCode）</p>
+</blockquote>
+<p>其实简单来说，将不重复的数字换入到返回的结果数组<code>res</code>中，由于只是交换，并不改变其长度，并且使这个序列上升的很慢。虽然这个序列有时候是不合法的，但是，如果<code>res</code>中最后一个数组被替换，那么就变为合法的了。</p>
+<p>利用二分法，可以在<code>logN</code>的时间复杂度中找到需要找到的位置： 第一个等于或者大于nums[i]</p>
+<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">lengthOfLIS</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> n = nums.size();
+        <span class="hljs-keyword">if</span>(!n)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
         &#125;
-        sort(tem.begin(),tem.end());
-        <span class="hljs-built_in">unordered_map</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>,<span class="hljs-keyword">int</span>&gt; res;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span>&amp; e:tem)&#123;
-            res[e]=n++;
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; res;
+        res.push_back(nums[<span class="hljs-number">0</span>]);
+        <span class="hljs-keyword">int</span> len = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; n; i++)&#123;
+            <span class="hljs-keyword">if</span>(res.back() &lt; nums[i])&#123;
+                res.push_back(nums[i]);
+                len ++;
+            &#125;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(res.back() &gt; nums[i])&#123;
+                <span class="hljs-comment">//二分查找</span>
+                <span class="hljs-keyword">int</span> left = <span class="hljs-number">0</span>;
+                <span class="hljs-keyword">int</span> right = len - <span class="hljs-number">1</span>;
+                <span class="hljs-keyword">while</span>(left &lt;= right)&#123;
+                    <span class="hljs-comment">//找到第一个比num[i]大的数</span>
+                    <span class="hljs-keyword">int</span> mid = left + (right - left)/<span class="hljs-number">2</span>;
+                    <span class="hljs-keyword">if</span>(res[mid] &gt;= nums[i]) &#123;
+                        right = mid - <span class="hljs-number">1</span>;
+                    &#125;
+                    <span class="hljs-keyword">else</span>&#123;
+                        left = mid + <span class="hljs-number">1</span>;
+                    &#125;
+                &#125;
+                <span class="hljs-keyword">if</span>(res[left] != nums[i]) &#123;
+                    res[left] = nums[i];
+                &#125;
+            &#125;
         &#125;
-        <span class="hljs-keyword">int</span> m=nums.size();
-        <span class="hljs-keyword">int</span> cur=<span class="hljs-number">0</span>;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=m<span class="hljs-number">-1</span>;i&gt;=<span class="hljs-number">0</span>;i--)&#123;
-            <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> k=(<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)nums[i]*<span class="hljs-number">2</span>;
-            cur+=ask(res[nums[i]]<span class="hljs-number">-1</span>);
-            update(res[k],<span class="hljs-number">1</span>);
-        &#125;
-        <span class="hljs-keyword">return</span> cur;
+        <span class="hljs-keyword">return</span> len;
     &#125;
 &#125;;</code></pre></div>
 
@@ -344,18 +370,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/WennyAhhh.github.io/2020/12/08/%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%20%E9%98%BB%E5%A1%9E%E9%9D%9E%E9%98%BB%E5%A1%9E/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">同步/异步，阻塞/非阻塞</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/WennyAhhh.github.io/2020/11/07/%E6%9D%A1%E6%AC%BE38%20has-a%20%E6%9D%A1%E6%AC%BE39%20%E6%98%8E%E6%99%BA%E8%80%8C%E5%AE%A1%E6%85%8E%E5%9C%B0%E4%BD%BF%E7%94%A8private%E7%BB%A7%E6%89%BF/">
-                        <span class="hidden-mobile">条款38 has-a 条款39 明智而审慎地使用private继承</span>
+                      <a href="/WennyAhhh.github.io/2020/12/13/%E5%AE%89%E8%A3%85chisel/">
+                        <span class="hidden-mobile">rocket环境配置</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -498,7 +518,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "LeetCode 493.翻转对&nbsp;",
+        "LeetCode 300.最长递增子序列&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
