@@ -19,7 +19,7 @@
   <meta name="description" content="">
   <meta name="author" content="chaij">
   <meta name="keywords" content="">
-  <title>LeetCode 300.最长递增子序列 - chaij&#39;s blog</title>
+  <title>chisel测试问题 - chaij&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-12-26 10:39" pubdate>
-        2020年12月26日 上午
+      <time datetime="2020-12-30 11:38" pubdate>
+        2020年12月30日 中午
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      725 字
+      656 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      8
        分钟
     </span>
   
@@ -229,114 +229,74 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">LeetCode 300.最长递增子序列</h1>
+            <h1 style="display: none">chisel测试问题</h1>
             
             <div class="markdown-body" id="post-body">
-              <h1 id="300-最长递增子序列"><a href="#300-最长递增子序列" class="headerlink" title="300. 最长递增子序列"></a>300. 最长递增子序列</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-increasing-subsequence/submissions/">LeetCode</a></p>
-<blockquote>
-<p>给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。</p>
-<p>子序列是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。</p>
-</blockquote>
-<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>dp[i] 表示 nums数组中0 ~ i之间的最大上升序列</p>
-<p>状态转移方程:</p>
-<p>​<br>$$<br>dp[i] = max(dp[j]) + 1,  0 &lt;j&lt; i-1, nums[j] &lt; nums[i]<br>$$</p>
-<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">lengthOfLIS</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;
-        <span class="hljs-keyword">int</span> n = nums.size();
-        <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">dp</span><span class="hljs-params">(n)</span></span>;
-        <span class="hljs-keyword">int</span> imax = <span class="hljs-number">0</span>;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span> ;i &lt; n; i++)&#123;
-            dp[i] = <span class="hljs-number">1</span>;
-            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++)&#123;
-                <span class="hljs-keyword">if</span>(nums[j] &lt; nums[i]) &#123;
-                    dp[i] = max(dp[i], dp[j] + <span class="hljs-number">1</span>);
-                &#125;
-            &#125;
-            imax = max(imax, dp[i]);
-        &#125;
-        <span class="hljs-keyword">return</span> imax;
-    &#125;
-&#125;;</code></pre></div>
+              <h1 id="chisel测试问题"><a href="#chisel测试问题" class="headerlink" title="chisel测试问题"></a>chisel测试问题</h1><p>查了一下<a target="_blank" rel="noopener" href="https://github.com/schoeberl/chisel-book">相关的资料</a>（第三章），找到了这个图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201230110219093.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201230110219093"></p>
+<p>关于函数传参中可能出现的疑惑，我也在<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34291505/article/details/87880730">其他资料</a>中找到了。的确是柯里化，只是因为scala的函数字面量有些晦涩</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201229231208573.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201229231208573"></p>
+<p>代码中用的是<strong>chisel3.iotesters</strong>这个模块，这个模块是<code>chisel</code>的测试模块（<a target="_blank" rel="noopener" href="https://www.chisel-lang.org/api/chisel-testers/1.3.4/chisel3/iotesters/index.html">官方api资料</a>），可以搭配<code>verilator</code>仿真，即使我加入了参数，使用了<code>verilator</code>，测试还是调用<code>chisel</code>的这个模块而已，所以用于测试的模块到底来说都是同一个，都是依靠以下<code>TesterSimple</code>进行输出测试信息的，而这个类是使用<strong>chisel3.iotesters</strong>所需要的参数的组成部分，和有没有参数是<strong>没有关系</strong>的。</p>
+<p>这个是测试模块，需要继承测试的类。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201230101754905.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201230101754905"></p>
+<p><strong>chisel3.iotesters.Driver</strong>需要创建第二参数列表，也就是一个测试类，创建了这个测试类才能进行测试。如果需要生成其他文件就要使用execute函数，比如vcd。就可以再使用一个至于参数，不仅仅只有verilator这一个，我还找到其他参数，其中就包括以下这个，这个参数就直接生成vcd文件而没有cpp等文件了。如果没有使用参数，但是使用了<strong>chisel3.iotesters.Driver</strong>，有测试信息，并且但是没有vcd文件。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201230094333316.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201230094333316"></p>
+<p>如果不加这个模块就不会进行测试了。就是另外一个方向了（但是查看<a target="_blank" rel="noopener" href="https://www.chisel-lang.org/api/latest/chisel3/Driver$.html">文档</a>这个execute函数被弃用了）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201230094753723.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201230094753723"></p>
+<p>这样就没有测试信息提示了，并且生成Verilog文件。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201230101527999.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201230101527999"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201230094926684.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201230094926684"></p>
+<p>代码：</p>
+<div class="hljs"><pre><code class="hljs scala"><span class="hljs-keyword">import</span> chisel3._
+<span class="hljs-keyword">import</span> chisel3.<span class="hljs-type">Driver</span>
+<span class="hljs-keyword">import</span> chisel3.iotesters.<span class="hljs-type">PeekPokeTester</span>
+<span class="hljs-keyword">import</span> org.scalatest._
 
-<p>$$<br>时间复杂度为： O(n^2)<br>$$</p>
-<h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h2><p>暴力＋剪枝</p>
-<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201226102240027.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201226102240027"></p>
-<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-keyword">int</span> imax=<span class="hljs-number">0</span>;
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getLength</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums,<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; result,<span class="hljs-keyword">int</span> position)</span></span>&#123;
-        <span class="hljs-keyword">if</span>(position&lt;result.size())&#123;
-            <span class="hljs-keyword">if</span>(result[position])&#123;
-                <span class="hljs-keyword">return</span> result[position];
-            &#125;
-            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=position+<span class="hljs-number">1</span>;i&lt;nums.size();i++)&#123;
-                <span class="hljs-keyword">if</span>(nums[i]&gt;nums[position])&#123;
-                    result[position]=max(result[position],getLength(nums,result,i)+<span class="hljs-number">1</span>);
-                &#125;
-            &#125;
-            <span class="hljs-keyword">return</span> result[position]?result[position]:<span class="hljs-number">1</span>;
-        &#125;
-        <span class="hljs-keyword">else</span>&#123;
-            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-        &#125;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">lengthOfLIS</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;
-        <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">result</span><span class="hljs-params">(nums.size(),<span class="hljs-number">0</span>)</span></span>;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;nums.size();i++)&#123;
-            imax=max(imax,getLength(nums,result,i));
-        &#125;
-        <span class="hljs-keyword">return</span> imax;
-    &#125;
-&#125;;</code></pre></div>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DeviceUnderTest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Module</span></span>&#123;
+    <span class="hljs-keyword">val</span> io = <span class="hljs-type">IO</span>(<span class="hljs-keyword">new</span> <span class="hljs-type">Bundle</span>&#123;
+        <span class="hljs-keyword">val</span> a = <span class="hljs-type">Input</span>(<span class="hljs-type">UInt</span> (<span class="hljs-number">4.</span><span class="hljs-type">W</span>))
+        <span class="hljs-keyword">val</span> b = <span class="hljs-type">Input</span>(<span class="hljs-type">UInt</span> (<span class="hljs-number">4.</span><span class="hljs-type">W</span>))
+        <span class="hljs-keyword">val</span> out = <span class="hljs-type">Output</span>(<span class="hljs-type">UInt</span>(<span class="hljs-number">2.</span><span class="hljs-type">W</span>))
+    &#125;)
+    io.out := io.a &amp; io.b
+&#125;
 
-
-
-<h2 id="贪心-二分"><a href="#贪心-二分" class="headerlink" title="贪心+二分"></a>贪心+二分</h2><p>这个方法其实很巧妙</p>
-<p>如果我们要使上升子序列尽可能的长，则我们需要让序列上升得尽可能慢，因此我们希望每次在上升子序列最后加上的那个数尽可能的小。</p>
-<p>下面的是官方的解析，官方还是一如既往的严谨。</p>
-<blockquote>
-<p>作者：LeetCode-Solution<br>链接：<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/zui-chang-shang-sheng-zi-xu-lie-by-leetcode-soluti/">https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/zui-chang-shang-sheng-zi-xu-lie-by-leetcode-soluti/</a><br>来源：力扣（LeetCode）</p>
-</blockquote>
-<p>其实简单来说，将不重复的数字换入到返回的结果数组<code>res</code>中，由于只是交换，并不改变其长度，并且使这个序列上升的很慢。虽然这个序列有时候是不合法的，但是，如果<code>res</code>中最后一个数组被替换，那么就变为合法的了。</p>
-<p>利用二分法，可以在<code>logN</code>的时间复杂度中找到需要找到的位置： 第一个等于或者大于nums[i]</p>
-<div class="hljs"><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
-<span class="hljs-keyword">public</span>:
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">lengthOfLIS</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;
-        <span class="hljs-keyword">int</span> n = nums.size();
-        <span class="hljs-keyword">if</span>(!n)&#123;
-            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-        &#125;
-        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; res;
-        res.push_back(nums[<span class="hljs-number">0</span>]);
-        <span class="hljs-keyword">int</span> len = <span class="hljs-number">1</span>;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; n; i++)&#123;
-            <span class="hljs-keyword">if</span>(res.back() &lt; nums[i])&#123;
-                res.push_back(nums[i]);
-                len ++;
-            &#125;
-            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(res.back() &gt; nums[i])&#123;
-                <span class="hljs-comment">//二分查找</span>
-                <span class="hljs-keyword">int</span> left = <span class="hljs-number">0</span>;
-                <span class="hljs-keyword">int</span> right = len - <span class="hljs-number">1</span>;
-                <span class="hljs-keyword">while</span>(left &lt;= right)&#123;
-                    <span class="hljs-comment">//找到第一个比num[i]大的数</span>
-                    <span class="hljs-keyword">int</span> mid = left + (right - left)/<span class="hljs-number">2</span>;
-                    <span class="hljs-keyword">if</span>(res[mid] &gt;= nums[i]) &#123;
-                        right = mid - <span class="hljs-number">1</span>;
-                    &#125;
-                    <span class="hljs-keyword">else</span>&#123;
-                        left = mid + <span class="hljs-number">1</span>;
-                    &#125;
-                &#125;
-                <span class="hljs-keyword">if</span>(res[left] != nums[i]) &#123;
-                    res[left] = nums[i];
-                &#125;
-            &#125;
-        &#125;
-        <span class="hljs-keyword">return</span> len;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TesterSimple</span>(<span class="hljs-params">dut : <span class="hljs-type">DeviceUnderTest</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">PeekPokeTester</span>(<span class="hljs-params">dut</span>)</span>&#123;
+    poke(dut.io.a, <span class="hljs-number">3.</span><span class="hljs-type">U</span>)
+    poke(dut.io.b, <span class="hljs-number">1.</span><span class="hljs-type">U</span>)
+    step(<span class="hljs-number">1000</span>)
+    <span class="hljs-comment">//println(&quot;Result is: &quot;+peek(dut.io.out).toString)</span>
+    expect(dut.io.out,<span class="hljs-number">1</span>)
+    poke(dut.io.a, <span class="hljs-number">2.</span><span class="hljs-type">U</span>)
+    poke(dut.io.b, <span class="hljs-number">0.</span><span class="hljs-type">U</span>)
+    step(<span class="hljs-number">1000</span>)
+    <span class="hljs-comment">//println(&quot;Result is: &quot;+peek(dut.io.out).toString)</span>
+    expect(dut.io.out,<span class="hljs-number">0</span>)
+&#125;
+<span class="hljs-comment">//直接生产vcd文件</span>
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">TesterSimple</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">App</span></span>&#123;
+    chisel3.iotesters.<span class="hljs-type">Driver</span>.execute(<span class="hljs-type">Array</span>(<span class="hljs-string">&quot;--generate-vcd-output&quot;</span>, <span class="hljs-string">&quot;on&quot;</span>),() =&gt; <span class="hljs-keyword">new</span> <span class="hljs-type">DeviceUnderTest</span>())&#123; 
+        c =&gt; <span class="hljs-keyword">new</span> <span class="hljs-type">TesterSimple</span>(c)
     &#125;
-&#125;;</code></pre></div>
+&#125;
+<span class="hljs-comment">//需要自行添加参数</span>
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">TesterSimple</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">App</span></span>&#123;
+    chisel3.iotesters.<span class="hljs-type">Driver</span>.execute(args,() =&gt; <span class="hljs-keyword">new</span> <span class="hljs-type">DeviceUnderTest</span>())&#123; 
+        c =&gt; <span class="hljs-keyword">new</span> <span class="hljs-type">TesterSimple</span>(c)
+    &#125;
+&#125;
+
+<span class="hljs-comment">//chisel验证，不生成文件，有测试信息</span>
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">TesterSimple</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">App</span></span>&#123;
+    chisel3.iotesters.<span class="hljs-type">Driver</span>(() =&gt; <span class="hljs-keyword">new</span> <span class="hljs-type">DeviceUnderTest</span>())&#123; 
+        c =&gt; <span class="hljs-keyword">new</span> <span class="hljs-type">TesterSimple</span>(c)
+    &#125;
+&#125;
+
+<span class="hljs-comment">//生产verilog文件，但是没有测试信息</span>
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">TesterSimple</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">App</span> </span>&#123;
+  chisel3.<span class="hljs-type">Driver</span>.execute(args, () =&gt; <span class="hljs-keyword">new</span> <span class="hljs-type">DeviceUnderTest</span>())
+&#125;</code></pre></div>
 
 
             </div>
@@ -347,7 +307,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/WennyAhhh.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/categories/riscv/">riscv</a>
                     
                   </div>
                 
@@ -355,9 +315,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
-                    
-                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/LeetCode/">LeetCode</a>
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/chisel/">chisel</a>
                     
                   </div>
                 
@@ -370,18 +328,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/WennyAhhh.github.io/2020/12/30/chisel%E6%B5%8B%E8%AF%95%E9%97%AE%E9%A2%98/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">chisel测试问题</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/WennyAhhh.github.io/2020/12/13/%E5%AE%89%E8%A3%85chisel/">
-                        <span class="hidden-mobile">rocket环境配置</span>
+                      <a href="/WennyAhhh.github.io/2020/12/26/LeetCode%20300.%20%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97/">
+                        <span class="hidden-mobile">LeetCode 300.最长递增子序列</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -524,7 +476,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "LeetCode 300.最长递增子序列&nbsp;",
+        "chisel测试问题&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
