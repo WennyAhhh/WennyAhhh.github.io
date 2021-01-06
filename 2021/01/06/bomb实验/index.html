@@ -1,0 +1,1138 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/WennyAhhh.github.io/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/WennyAhhh.github.io/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chaij">
+  <meta name="keywords" content="">
+  <title>bomb lab - chaij&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/WennyAhhh.github.io/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/WennyAhhh.github.io/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/WennyAhhh.github.io/js/utils.js" ></script>
+  <script  src="/WennyAhhh.github.io/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <script src="https://WennyAhhh.github.io/live2d/autoload.js"></script>
+  <header style="height: 70vh;">
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/WennyAhhh.github.io/">&nbsp;<strong>chaij's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/WennyAhhh.github.io/img/article.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      chaij
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-06 09:35" pubdate>
+        2021年1月6日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      115
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">bomb lab</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="bomb-lab"><a href="#bomb-lab" class="headerlink" title="bomb lab"></a>bomb lab</h1><h2 id="前置工作"><a href="#前置工作" class="headerlink" title="前置工作"></a>前置工作</h2><p>反编译</p>
+<div class="hljs"><pre><code class="hljs bash">objdump -d bomb &gt; bomb.asm</code></pre></div>
+
+<p>这样反编译就可以生成汇编文件，需要对照着看。下面试一些我之后会用到的<code>gdb</code>方式</p>
+<div class="hljs"><pre><code class="hljs bash">1  (gdb) b（breakpoint）: 用法：b 函数名 ：对此函数进行中断 ；b 文件名：行号；
+   2  (gdb) run：启动程序，运行至程序的断点或者结束；
+   3  (gdb) l(list): 用法：l funcname，制定函数的源码
+   4  (gdb) n(next): 不进入函数，逐过程运行；
+   5  (gdb) c（<span class="hljs-built_in">continue</span>）：继续运行，跳至下一个断点；
+   6  (gdb) p（<span class="hljs-built_in">print</span>）：打印显示变量值,如果后面是地址，加上*，比如<span class="hljs-built_in">print</span>  *0x6030f0，寄存器<span class="hljs-built_in">print</span> <span class="hljs-variable">$rax</span>。后面跟的是一个变量而非地址
+   7  (gdb) <span class="hljs-built_in">set</span> variable=value, 为变量赋值；
+   8  (gdb) <span class="hljs-built_in">kill</span>：终止调试的程序；
+   9  (gdb) h（<span class="hljs-built_in">help</span>）：列出 gdb 详细命令帮助列表；
+   10 (gdb) clear filename.c:30：清除 30 行处的断点；
+   11 (gdb) info <span class="hljs-built_in">break</span>：显示断点信息；
+   12 (gdb) delete 断点编号：断点编号是 info <span class="hljs-built_in">break</span> 后显示出来的；
+   13 (gdb) q：退出；
+   14 (gdb) x(examine)：查看内存中的值等 // 详细内容在 gdb 中输入 <span class="hljs-built_in">help</span> x 查看。常用x/s <span class="hljs-variable">$rax</span>，打印rax地址中的字符串变量。x/d <span class="hljs-variable">$rax</span>，打印地址的十进制变量
+   15 (gdb) <span class="hljs-built_in">set</span> args xxx(file) 重定向输入文件，可以将答案存入这个文件中，然后在run之前使用此语句，就不需要再输入已知的正确答案。
+   16 (gdb) x/&lt;n/f/u&gt; &lt;addr&gt; 可以帮助打印数组。n是需要打印的个数;f是格式，z十六进制，d十进制;u是字节数，也就是一个数据块占的大小
+   		 默认是4个bytes。可以修改，b表示单字节，h表示双字节，w表示四字 节，g表示八字节。addr是起始地址</code></pre></div>
+<p>用到多的1,2,4,8,9,,12,15,16。</p>
+<div class="hljs"><pre><code class="hljs bash">ax--r开头64位，eax--e开头32位</code></pre></div>
+
+<blockquote>
+<p>由于我之前是学习过王爽老师的《汇编语言》，是Intel风格的汇编，但是csapp中使用的是ATT风格的，顺序上有区别，需要注意</p>
+</blockquote>
+<h2 id="phase-1"><a href="#phase-1" class="headerlink" title="phase_1"></a>phase_1</h2><div class="hljs"><pre><code class="hljs assembly">0000000000400ee0 &lt;phase_1&gt;:
+  400ee0:	48 83 ec 08          	sub    $0x8,%rsp
+  400ee4:	be 00 24 40 00       	mov    $0x402400,%esi
+  400ee9:	e8 4a 04 00 00       	callq  401338 &lt;strings_not_equal&gt;
+  400eee:	85 c0                	test   %eax,%eax
+  400ef0:	74 05                	je     400ef7 &lt;phase_1+0x17&gt;
+  400ef2:	e8 43 05 00 00       	callq  40143a &lt;explode_bomb&gt;
+  400ef7:	48 83 c4 08          	add    $0x8,%rsp
+  400efb:	c3                   	retq</code></pre></div>
+
+<p>以上是<code>phase_1</code>的汇编代码</p>
+<p>第一行：<code>sub    $0x8,%rsp</code> 准备栈帧（栈底到当前栈顶<code>rsp</code>的一段预留空间，每个具有局部变量的函数都将使用栈帧来存储自己的局部变量，这里大小是8个字节）。</p>
+<p>第二行： <code>mov    $0x402400,%esi</code>，将一个立即数，也是一个字符串的地址传递给<code>%esi</code>，</p>
+<p>第三行:    调用401338地址的<code>strings_not_equal</code>函数，看字面意思就是判断两个字符串是否相等，函数的部分汇编代码如下</p>
+<div class="hljs"><pre><code class="hljs assembly">0000000000401338 &lt;strings_not_equal&gt;:
+  401338:	41 54                	push   %r12
+  40133a:	55                   	push   %rbp
+  40133b:	53                   	push   %rbx
+  40133c:	48 89 fb             	mov    %rdi,%rbx
+  40133f:	48 89 f5             	mov    %rsi,%rbp
+  .....
+  40139b:	89 d0                	mov    %edx,%eax
+  40139d:	5b                   	pop    %rbx
+  40139e:	5d                   	pop    %rbp
+  40139f:	41 5c                	pop    %r12
+  4013a1:	c3                   	retq</code></pre></div>
+
+<p><code>push %12</code>是调用保存寄存器。</p>
+<blockquote>
+<p>R12 它在过程链接胶合代码（例如，交互操作胶合代码）中用于此角色。在过程调用之间，可以将它用于任何用途。被调用函数在返回之前不必恢复 r12。</p>
+</blockquote>
+<p>现在这个函数<code>strings_not_equal</code>打点，然后输入字符串,此时还没有进入函数，但是<code>%rdi,%rsi</code>是传入的参数</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201231133451943.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201231133451943"></p>
+<p>由此可见，传入了<code>rbp rbx</code>两个寄存器，其中的值应该就是需要比较的值。</p>
+<p>第四行： <code>test   %eax,%eax</code>,test命令对两个操作数按位与(AND)操作,设置符号标志位、零标志位和奇偶标志位。对于此来说，如果<code>%eax</code>为0.那么<code>ZF</code>标志位为1。</p>
+<p>第五行： <code>je     400ef7 &lt;phase_1+0x17&gt;</code>跳转到<code>400ef7</code>地址，也就是避开了<code>explode_bomb</code>。当然，跳转的条件是<code>ZF</code>为1，也就是最近的操作的结果为<code>0</code></p>
+<p>所以只需要查看<code>$0x402400,%esi，%rsi</code>这个内存地址和寄存器，并且输入相同的值。</p>
+<p>所以在要求输入的时候输入<code>Border relations with Canada have never been better.</code>就可以通关啦.</p>
+<div class="hljs"><pre><code class="hljs bash">Welcome to my fiendish little bomb. You have 6 phases with
+<span class="hljs-built_in">which</span> to blow yourself up. Have a nice day!
+Border relations with Canada have never been better.
+Phase 1 defused. How about the next one?</code></pre></div>
+
+
+
+<h2 id="phase-2"><a href="#phase-2" class="headerlink" title="phase_2"></a>phase_2</h2><p>刚看的时候很懵逼，其实是很多汇编代码不需要一步一步都明白，只需要理清脉络就行。或者说，有些代码你不需要知道是什么，但是可以通过断点，来判断寄存器或者内存地址里面有什么</p>
+<div class="hljs"><pre><code class="hljs assembly">400efe:	48 83 ec 28          	sub    $0x28,%rsp
+400f02:	48 89 e6             	mov    %rsp,%rsi</code></pre></div>
+
+<p><code>rsp</code>是栈底，由于栈是高地址到低地址，减去<code>0x28</code>表示有临时变量有40个字节大小，然后将<code>rsp</code>移到<code>rsi</code>当中去，就可以保存栈顶</p>
+<div class="hljs"><pre><code class="hljs assembly">400f05:	e8 52 05 00 00       	callq  40145c &lt;read_six_numbers&gt;
+400f0a:	83 3c 24 01          	cmpl   $0x1,(%rsp)
+400f0e:	74 20                	je     400f30 &lt;phase_2+0x34&gt;</code></pre></div>
+
+<p>看字面意思是读取六个数字。然后对<code>rsp</code>中的值与<code>0x1</code>对比，如果相等就跳转(避免调用bomb函数)。由于<code>rsp</code>被作为栈顶指针，所以我们有理由判断，这个比较是要求输入的第一个数字是<code>1</code>。然后我们可以进行断点检测。断点断在<code>0x400f0a</code>这个点上，因为此时<code>read</code>调用已经完成。我们可以通过<code>rsp</code>寄存器，并进行偏移来查看值。每个数字的字节大小是4。这里是否需要注意输入顺序？</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20201231232131468.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20201231232131468"></p>
+<div class="hljs"><pre><code class="hljs assembly">400f30:	48 8d 5c 24 04       	lea    0x4(%rsp),%rbx
+400f35:	48 8d 6c 24 18       	lea    0x18(%rsp),%rbp
+400f3a:	eb db                	jmp    400f17 &lt;phase_2+0x1b&gt;   # 400F17</code></pre></div>
+
+<p>这里是上一步跳转过来的地址，初始化。<code>0x4(%rsp)</code>这个地址是array[1]的地址，也就是第二个数字。<code>0x18(%rsp)</code>这个地址是array[6]的地址，也就是最后一个地址.</p>
+<p>综上，<code>rbx</code>是第一个数,<code>rbp</code>是第六个数后面的地址(第七个数，但是没有输入，相当于C++迭代器的<code>end()</code>)。</p>
+<div class="hljs"><pre><code class="hljs assembly">400f17:	8b 43 fc             	mov    -0x4(%rbx),%eax
+400f1a:	01 c0                	add    %eax,%eax
+400f1c:	39 03                	cmp    %eax,(%rbx)
+400f1e:	74 05                	je     400f25 &lt;phase_2+0x29&gt;   # 400f25
+400f20:	e8 15 05 00 00       	callq  40143a &lt;explode_bomb&gt;
+400f25:	48 83 c3 04          	add    $0x4,%rbx
+400f29:	48 39 eb             	cmp    %rbp,%rbx
+400f2c:	75 e9                	jne    400f17 &lt;phase_2+0x1b&gt;   # 400F17
+400f2e:	eb 0c                	jmp    400f3c &lt;phase_2+0x40&gt;   # 400F3C</code></pre></div>
+
+<p>观察这段代码，就会发现其实这个是一个循环。对于第一个循环。<code>eax</code>的值被设置为<code>rbx</code>的下一个地址的值，也就是第一个数。</p>
+<p>add将<code>eax</code>乘二,然后对比。如果不相等，就会跳转到<code>bomb</code>。所以给出一个限制条件 <strong>后面的数字是前面数字的两倍</strong></p>
+<p>一直到循环结束，也就是<code>rbp == rbx</code>，也就是数组到头了。那么就跳出循环。第二题结束。</p>
+<p>所以这关的密码是</p>
+<p><code>1 2 4 8 16 32</code></p>
+<h2 id="phase-3"><a href="#phase-3" class="headerlink" title="phase_3"></a>phase_3</h2><div class="hljs"><pre><code class="hljs assembly">400f43:	48 83 ec 18          	sub    $0x18,%rsp
+400f47:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx
+400f4c:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
+400f51:	be cf 25 40 00       	mov    $0x4025cf,%esi
+400f56:	b8 00 00 00 00       	mov    $0x0,%eax
+400f5b:	e8 90 fc ff ff       	callq  400bf0 &lt;__isoc99_sscanf@plt&gt;</code></pre></div>
+
+<p>最后一行是调用<code>scanf</code>函数，所以这应该是准备输入<code>scanf</code>的前置工作。前三个没啥好说的，就是一个栈的准备工作。在第四行，多了一个地址<code>$0x4025cf</code>,这个地址很明显藏了东西，用<code>gdb</code>尝试看一下里有什么。在<code>400f5b</code>断点</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210101212107149.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210101212107149"></p>
+<p>我尝试了整数和字符串形式，很显然字符串的那个我们太熟悉了，这不就是<code>scanf</code>的输入两个整数嘛。由此可得，输入的是两个整数</p>
+<div class="hljs"><pre><code class="hljs assembly">400f60:	83 f8 01             	cmp    $0x1,%eax
+400f63:	7f 05                	jg     400f6a &lt;phase_3+0x27&gt;
+400f65:	e8 d0 04 00 00       	callq  40143a &lt;explode_bomb&gt;</code></pre></div>
+
+<p>发现有个<code>cmp</code>对比，也就是看看<code>rax</code>是不是<code>0x1</code>，如果是那就会<code>bomb</code>。断点调试看看<code>rax</code>是什么</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210101214416983.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210101214416983"></p>
+<p>然后在往上看，在调用<code>scanf</code>前面就重置为<code>0x0</code>,而调用之后就变为了2，说明这是<code>scanf</code>所改变的,联系到之前<code>%d %d</code>，猜测会不会是输入整数的个数。那么我输入一个整数试试。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210101214527477.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210101214527477"></p>
+<p>果然。是一个。然后想想，scanf如果只是<code>%d %d</code>只会输入两个，如果是三个及以上那么也不会输入以后的，如果是0个那么就不会输入。</p>
+<div class="hljs"><pre><code class="hljs assembly">400f6a:	83 7c 24 08 07       	cmpl   $0x7,0x8(%rsp)
+400f6f:	77 3c                	ja     400fad &lt;phase_3+0x6a&gt;
+400f71:	8b 44 24 08          	mov    0x8(%rsp),%eax
+400f75:	ff 24 c5 70 24 40 00 	jmpq   *0x402470(,%rax,8)</code></pre></div>
+
+<p>看到<code>0x8(%rsp)</code>,<code>%rsp</code>寄存器是栈顶指针，根据第二题，就可以推断出这个是输入的字符。我们可以断点查看一下这两个</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210101215629856.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210101215629856"></p>
+<p>果然，这两个地址就是输入的数字，然后，这里的<code>rsp+0x8</code>就是输入的第一个数字，与<code>0x7</code>比较，然后看跳转命令<code>ja</code>，表示<strong>无符号整数</strong>大于就跳转(跳到<code>bomb</code>)，在<code>ATT</code>中表示<code>rsp+0x8 &gt; 0x7</code>,所以这里的限制条件就是第一个数字在<code>0~7</code>之间。</p>
+<p>这段代码最后一行困惑了我很久，原因在于我的断点调试。首先我肯定 <code>0x402470</code>当中储存的是地址，然后</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210101220749973.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210101220749973"></p>
+<p>这个地址就是这段代码的后续第一个地址，也就是<code>rax</code>为0的情况。计算的结果我<strong>一开始</strong>认为是<code>0x400f7c+%rax*8</code>，然后跳转到这个地址。但是我发现除了0，没有第一个地址是符合的。于是就感到困惑。</p>
+<p>后来在网上查了资料，猛然发现，解引用的优先级要低一些，也就是<strong>正确</strong>的操作顺序是<code>*(0x402470+%rax*8)</code>，这才恍然大悟：在网课上，老师其实已经提到过，对于<code>switch</code>来说，由于查找的东西都是已经固定的，所以对于相对连续的值就不会使用<code>if-else</code>，那是采用哈希表的方式，将值储存在一个数组当中。数组中的值当然是需要跳转的地址。对于这题来说<code>0x402470</code>就是数组的起始地址。</p>
+<p>那么就看看这个长度为8的数组里面都是什么</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210101221744716.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210101221744716"></p>
+<div class="hljs"><pre><code class="hljs assembly">400f7c:	b8 cf 00 00 00       	mov    $0xcf,%eax
+400f81:	eb 3b                	jmp    400fbe &lt;phase_3+0x7b&gt;
+400f83:	b8 c3 02 00 00       	mov    $0x2c3,%eax
+400f88:	eb 34                	jmp    400fbe &lt;phase_3+0x7b&gt;
+400f8a:	b8 00 01 00 00       	mov    $0x100,%eax
+400f8f:	eb 2d                	jmp    400fbe &lt;phase_3+0x7b&gt;
+400f91:	b8 85 01 00 00       	mov    $0x185,%eax
+400f96:	eb 26                	jmp    400fbe &lt;phase_3+0x7b&gt;
+400f98:	b8 ce 00 00 00       	mov    $0xce,%eax
+400f9d:	eb 1f                	jmp    400fbe &lt;phase_3+0x7b&gt;
+400f9f:	b8 aa 02 00 00       	mov    $0x2aa,%eax
+400fa4:	eb 18                	jmp    400fbe &lt;phase_3+0x7b&gt;
+400fa6:	b8 47 01 00 00       	mov    $0x147,%eax
+400fab:	eb 11                	jmp    400fbe &lt;phase_3+0x7b&gt;
+400fad:	e8 88 04 00 00       	callq  40143a &lt;explode_bomb&gt;
+400fb2:	b8 00 00 00 00       	mov    $0x0,%eax
+400fb7:	eb 05                	jmp    400fbe &lt;phase_3+0x7b&gt;
+400fb9:	b8 37 01 00 00       	mov    $0x137,%eax</code></pre></div>
+
+<p>可以一一对应，也就是这题有8种选择。跳转过去，每个都有对应的值赋值给<code>eax</code></p>
+<div class="hljs"><pre><code class="hljs assembly">400fbe:	3b 44 24 0c          	cmp    0xc(%rsp),%eax
+400fc2:	74 05                	je     400fc9 &lt;phase_3+0x86&gt;
+400fc4:	e8 71 04 00 00       	callq  40143a &lt;explode_bomb&gt;
+400fc9:	48 83 c4 18          	add    $0x18,%rsp</code></pre></div>
+
+<p>第一行，<code>$rsp+0xc</code>对应的值是第二个输入的值，<code>%eax</code>,但是<code>eax</code>的值是由第一个所决定的，换句话说，第一个值确定了(0~7)，那么第二个值就也确定了.</p>
+<p>这里我选择<code>0 207</code>作为答案。</p>
+<h2 id="phase-4"><a href="#phase-4" class="headerlink" title="phase_4"></a>phase_4</h2><p>有了前几道题目的思考，这道题目意外的简单。 </p>
+<div class="hljs"><pre><code class="hljs assembly">401010:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx
+401015:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
+40101a:	be cf 25 40 00       	mov    $0x4025cf,%esi
+40101f:	b8 00 00 00 00       	mov    $0x0,%eax
+401024:	e8 c7 fb ff ff       	callq  400bf0 &lt;__isoc99_sscanf@plt&gt;
+401029:	83 f8 02             	cmp    $0x2,%eax
+40102c:	75 07                	jne    401035 &lt;phase_4+0x29&gt;
+40102e:	83 7c 24 08 0e       	cmpl   $0xe,0x8(%rsp)
+401033:	76 05                	jbe    40103a &lt;phase_4+0x2e&gt;
+401035:	e8 00 04 00 00       	callq  40143a &lt;explode_bomb&gt;</code></pre></div>
+
+<p>老面孔了，可以gdb调试看看<code>esi</code>值，我这边就不展示，因为这个内存地址都和第三题一模一样，里面的内容是<code>%d %d</code>。</p>
+<p>也就是输入两个数字吧。后面规定了长度为2，<code>jbe</code>是无符号小于等于的意思，这边是需要跳转过去的，也就是说，输入的数字取值范围在**(0~14)**</p>
+<div class="hljs"><pre><code class="hljs assembly">40103a:	ba 0e 00 00 00       	mov    $0xe,%edx
+40103f:	be 00 00 00 00       	mov    $0x0,%esi
+401044:	8b 7c 24 08          	mov    0x8(%rsp),%edi
+401048:	e8 81 ff ff ff       	callq  400fce &lt;func4&gt;
+40104d:	85 c0                	test   %eax,%eax</code></pre></div>
+
+<p>前三行明显的传参行为，然后调用<code>func4</code>，最后<code>test</code>。由于在调用函数前已经重置为<code>0</code>,所以<code>eax</code>就是返回值，用于后续的比较</p>
+<p>此时<code>edx = 14 esi = 0 edi = x</code>，其中x表示第一个输入参数，y表示第二个输入参数</p>
+<p>查看<code>func</code></p>
+<div class="hljs"><pre><code class="hljs assembly">400fd2:	89 d0                	mov    %edx,%eax
+400fd4:	29 f0                	sub    %esi,%eax
+400fd6:	89 c1                	mov    %eax,%ecx
+400fd8:	c1 e9 1f             	shr    $0x1f,%ecx
+400fdb:	01 c8                	add    %ecx,%eax
+400fdd:	d1 f8                	sar    %eax
+400fdf:	8d 0c 30             	lea    (%rax,%rsi,1),%ecx</code></pre></div>
+
+<p>一些前置操作而已，这是第一次调用</p>
+<table>
+<thead>
+<tr>
+<th>edx</th>
+<th>14</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>eax</td>
+<td>14 -&gt; 14 -&gt; 7</td>
+</tr>
+<tr>
+<td>edi</td>
+<td>x</td>
+</tr>
+<tr>
+<td>esi</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ecx</td>
+<td>7</td>
+</tr>
+</tbody></table>
+<div class="hljs"><pre><code class="hljs assembly">400fe2:	39 f9                	cmp    %edi,%ecx
+400fe4:	7e 0c                	jle    400ff2 &lt;func4+0x24&gt;</code></pre></div>
+
+<p><code>jle</code>是有符号的小于等于。也就是说如果输入的值是<code>x &gt;= ecx</code>就会跳转。查看跳转之后的命令：</p>
+<div class="hljs"><pre><code class="hljs assembly">400ff2:	b8 00 00 00 00       	mov    $0x0,%eax
+400ff7:	39 f9                	cmp    %edi,%ecx
+400ff9:	7d 0c                	jge    401007 &lt;func4+0x39&gt;</code></pre></div>
+
+<p>这段代码很奇怪一点在于，首先吧<code>eax</code>置为0，然后依然对于上面已经对比过的，<code>jge</code>是大于等于就跳转并函数返回。那么对于<code>&gt;= 7</code>以及<code>&lt;= 7</code>，第一个参数是7就可以直接返回，并且<code>eax</code>为0。</p>
+<div class="hljs"><pre><code class="hljs assembly"># phase_4
+40104d:	85 c0                	test   %eax,%eax
+40104f:	75 07                	jne    401058 &lt;phase_4+0x4c&gt;
+401051:	83 7c 24 0c 00       	cmpl   $0x0,0xc(%rsp)
+401056:	74 05                	je     40105d &lt;phase_4+0x51&gt;
+401058:	e8 dd 03 00 00       	callq  40143a &lt;explode_bomb&gt;
+40105d:	48 83 c4 18          	add    $0x18,%rsp</code></pre></div>
+
+<p>函数返回之后，用<code>test</code>对比，由于<code>eax</code>是0，所以<code>jne</code>的不等于是无法通过的，也避免了<code>boom</code>，然后第二参数y与0对比，相等就跳转，然后结束。所以如果需要答案的话<code>7 0 </code>就可以直接正确了。</p>
+<p>但是！和剧情游戏一样，没有跑完全部支线是不完美的，由于第一个参数是一个<code>&lt;= 14</code>的数字，在<code>func4</code>中需要判断是否<code>&gt;= 7</code>，并且在<code>func4</code>代码中，可以发现:</p>
+<div class="hljs"><pre><code class="hljs assembly">400fe6:	8d 51 ff             	lea    -0x1(%rcx),%edx
+400fe9:	e8 e0 ff ff ff       	callq  400fce &lt;func4&gt;
+400fee:	01 c0                	add    %eax,%eax</code></pre></div>
+
+<p>第二行，就是一个<strong>递归</strong>！并且第一行改变了<code>edx</code>，会导致递归后的寄存器的值和第一次进入函数不一样。</p>
+<p>假设输入的数字<code>&lt;7</code>，那么就进入这段代码，<code>edx = 6</code>,第二次调用</p>
+<table>
+<thead>
+<tr>
+<th>edx</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>eax</td>
+<td>3</td>
+</tr>
+<tr>
+<td>edi</td>
+<td>x</td>
+</tr>
+<tr>
+<td>esi</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ecx</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<p>发现了么？-1并且除二，这就是刻在DNA里面的<strong>二分</strong>啊！判断条件<code>%edi,%ecx</code> ,<code>x &gt;= 3</code>。</p>
+<p>如果抓到二分这个条件的话，其实后面的东西就迎刃而解了。可以自己分析出来的是<code>esi是左边界，edx是右边界 ecx是mid</code></p>
+<p>但是这个二分有些奇怪，平常的二分是用来搜索的，这个二分就是用来刁难的。观察</p>
+<div class="hljs"><pre><code class="hljs assembly"># func4
+400fe2:	39 f9                	cmp    %edi,%ecx
+400fe4:	7e 0c                	jle    400ff2 &lt;func4+0x24&gt;
+400fe6:	8d 51 ff             	lea    -0x1(%rcx),%edx
+400fe9:	e8 e0 ff ff ff       	callq  400fce &lt;func4&gt;
+400fee:	01 c0                	add    %eax,%eax
+400ff0:	eb 15                	jmp    401007 &lt;func4+0x39&gt;
+400ff2:	b8 00 00 00 00       	mov    $0x0,%eax
+400ff7:	39 f9                	cmp    %edi,%ecx
+400ff9:	7d 0c                	jge    401007 &lt;func4+0x39&gt;
+400ffb:	8d 71 01             	lea    0x1(%rcx),%esi
+400ffe:	e8 cb ff ff ff       	callq  400fce &lt;func4&gt;
+401003:	8d 44 00 01          	lea    0x1(%rax,%rax,1),%eax</code></pre></div>
+
+<p>以上代码转化成部分C语言就是</p>
+<div class="hljs"><pre><code class="hljs c"><span class="hljs-keyword">if</span>(edi &lt; ecx)&#123;
+    edx = rcx <span class="hljs-number">-1</span> ;  <span class="hljs-comment">//right = mid - 1</span>
+    func4(edx, esi, edi);	<span class="hljs-comment">//左边界，右边界，值</span>
+    eax += eax;	
+&#125;
+<span class="hljs-keyword">else</span> &#123;
+    eax = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span>(edi &lt;= ecx)&#123; 	<span class="hljs-comment">//其实这里写成 == 也是一样的</span>
+        <span class="hljs-keyword">return</span> ;
+    &#125;
+    esi = rcx + <span class="hljs-number">1</span>;
+    func4(edx, esi, edi);
+    eax = eax + eax + <span class="hljs-number">1</span>;
+&#125;</code></pre></div>
+
+<p>而观察<code>phase_4</code>的代码，会发现最后一定要求<code>eax</code>的值为0。虽然只要在0~14当中，最后的<code>eax</code>值一定会是0,但是由于<code>eax = eax + eax + 1;</code>这段代码的存在，导致在二分的过程中，不可以运行这段代码，否则<code>bomb！</code>。换句话说，<strong>每次二分产生的<code>mid</code>都必须大于等于x</strong></p>
+<p>所以，x的值就是<code>7 3 1 0</code>中任意一个。</p>
+<p>对于第二个参数，我不明白是用来干嘛的，除了第二行放入<code>rcx</code>（在代码中没有什么用）和倒数第五行要求是<code>0</code>，就没有戏份了。所以固定死了第二参数为<code>0</code></p>
+<h2 id="phase-5"><a href="#phase-5" class="headerlink" title="phase_5"></a>phase_5</h2><p>这关也比较常规了</p>
+<div class="hljs"><pre><code class="hljs assembly">401062:	53                   	push   %rbx
+401063:	48 83 ec 20          	sub    $0x20,%rsp
+401067:	48 89 fb             	mov    %rdi,%rbx
+40106a:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+401071:	00 00 
+401073:	48 89 44 24 18       	mov    %rax,0x18(%rsp)
+401078:	31 c0                	xor    %eax,%eax
+40107a:	e8 9c 02 00 00       	callq  40131b &lt;string_length&gt;
+40107f:	83 f8 06             	cmp    $0x6,%eax
+401082:	74 4e                	je     4010d2 &lt;phase_5+0x70&gt;</code></pre></div>
+
+<p>这里我们只需要观察到这个<code>string_length</code>就可以了。更具前面几题的经验，很显然，<code>eax</code>里面存放的是输入字符串的长度，也就是说需要输入六个字符。然后跳转</p>
+<div class="hljs"><pre><code class="hljs assembly">4010d2:	b8 00 00 00 00       	mov    $0x0,%eax
+4010d7:	eb b2                	jmp    40108b &lt;phase_5+0x29&gt;</code></pre></div>
+
+<p>置零而已</p>
+<p>接下来的代码不观察后续代码简直不知所云。但是很显然的是这是一个循环，通过<code>eax</code>,每次循环便加一，直到为6就跳转。也就是循环了6次</p>
+<div class="hljs"><pre><code class="hljs assembly">40108b:	0f b6 0c 03          	movzbl (%rbx,%rax,1),%ecx
+40108f:	88 0c 24             	mov    %cl,(%rsp)
+401092:	48 8b 14 24          	mov    (%rsp),%rdx
+401096:	83 e2 0f             	and    $0xf,%edx
+401099:	0f b6 92 b0 24 40 00 	movzbl 0x4024b0(%rdx),%edx
+4010a0:	88 54 04 10          	mov    %dl,0x10(%rsp,%rax,1)
+4010a4:	48 83 c0 01          	add    $0x1,%rax
+4010a8:	48 83 f8 06          	cmp    $0x6,%rax
+4010ac:	75 dd                	jne    40108b &lt;phase_5+0x29&gt;</code></pre></div>
+
+<p>先放一下，然后观察后续的代码</p>
+<div class="hljs"><pre><code class="hljs assembly">4010ae:	c6 44 24 16 00       	movb   $0x0,0x16(%rsp)
+4010b3:	be 5e 24 40 00       	mov    $0x40245e,%esi
+4010b8:	48 8d 7c 24 10       	lea    0x10(%rsp),%rdi
+4010bd:	e8 76 02 00 00       	callq  401338 &lt;strings_not_equal&gt;
+4010c2:	85 c0                	test   %eax,%eax
+4010c4:	74 13                	je     4010d9 &lt;phase_5+0x77&gt;</code></pre></div>
+
+<p>这和第一题差不多，那么应该<code>rsi</code>是代码提供的字符串，而<code>rdi</code>是我们输入的。gdb调试一下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210103103627130.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210103103627130"></p>
+<p><code>rsi</code>确实是我们猜想的，系统给的，但是<code>rdi</code>却不是我们输入的。结合我们之前暂时跳过的那一段代码，我们可以猜测，那段代码对我们输入的字符进行了<strong>变换</strong></p>
+<div class="hljs"><pre><code class="hljs assembly">40108b:	0f b6 0c 03          	movzbl (%rbx,%rax,1),%ecx
+40108f:	88 0c 24             	mov    %cl,(%rsp)
+401092:	48 8b 14 24          	mov    (%rsp),%rdx
+401096:	83 e2 0f             	and    $0xf,%edx
+401099:	0f b6 92 b0 24 40 00 	movzbl 0x4024b0(%rdx),%edx
+4010a0:	88 54 04 10          	mov    %dl,0x10(%rsp,%rax,1)
+4010a4:	48 83 c0 01          	add    $0x1,%rax
+4010a8:	48 83 f8 06          	cmp    $0x6,%rax
+4010ac:	75 dd                	jne    40108b &lt;phase_5+0x29&gt;</code></pre></div>
+
+<p>在第一个循环中，先对第一行打点</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210103104107232.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210103104107232"></p>
+<p>第二行</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210103104316442.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210103104316442"></p>
+<p>显然，这两行代码的作用就是依次取出字符，因为一个地址对应一个字节<code>q</code>对应的ASCII是<code>113</code></p>
+<p>之后的两行代码无非是<code>mov</code>，可以打点看看<code>%rdx</code>是什么</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210103114113662.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210103114113662"></p>
+<p>有些不明显，转化成二进制会发现，最后的8位就是<code>113</code></p>
+<p>后面，使用<code>0xf</code>也就是<code>1111</code>进行与操作，结果就是最后四位，对于<code>113</code>，结果就是<code>1</code></p>
+<div class="hljs"><pre><code class="hljs rassembly">401099:	0f b6 92 b0 24 40 00 	movzbl 0x4024b0(%rdx),%edx
+4010a0:	88 54 04 10          	mov    %dl,0x10(%rsp,%rax,1)</code></pre></div>
+
+<p>第一行是关键，这里很明显，这是个数组。起始地址为<code>0x4024b0</code>，<code>rdx</code>就是下标，也就是，我们输入的字符的<strong>二进制最后四位</strong>。可以查看这个数组都藏掖了什么</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210103114602792.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210103114602792"></p>
+<p>哈，那么问题就迎刃而解了。只需要倒推就可以了。</p>
+<p>理一下思路，我们需要的结果是<code>flyers</code>，但是我们不能直接输入这个字符串，而是先计算这个字符串每个字符的ASCII码，然后根据上表找下标，下标值就是后四位。</p>
+<p>前三位可以是固定的<code>110</code>,但是也不一定，只要在<code>ASCII</code>表中找到后四位满足条件就行</p>
+<p>例如<code>f</code>,<code>ASCII</code>对应的是<code>102</code>,查表可得下标为<code>9</code>,对应的<code>ASCII</code>为<code>1001</code>,可以在前面加任意组合，只要在<code>ASCII</code>表中就行，这里选用<code>110</code>,也就是<code>110 1001</code>，对应105，字符为<code>i</code></p>
+<p>以此类推，答案为<code>ionefg</code>。当然结果可以有很多个。</p>
+<h2 id="phase-6"><a href="#phase-6" class="headerlink" title="phase_6"></a>phase_6</h2><p>这道题目稍微复杂一些</p>
+<div class="hljs"><pre><code class="hljs assembly">4010fc:	48 83 ec 50          	sub    $0x50,%rsp
+401100:	49 89 e5             	mov    %rsp,%r13
+401103:	48 89 e6             	mov    %rsp,%rsi
+401106:	e8 51 03 00 00       	callq  40145c &lt;read_six_numbers&gt;
+40110b:	49 89 e6             	mov    %rsp,%r14
+40110e:	41 bc 00 00 00 00    	mov    $0x0,%r12d
+401114:	4c 89 ed             	mov    %r13,%rbp
+401117:	41 8b 45 00          	mov    0x0(%r13),%eax
+40111b:	83 e8 01             	sub    $0x1,%eax
+40111e:	83 f8 05             	cmp    $0x5,%eax
+401121:	76 05                	jbe    401128 &lt;phase_6+0x34&gt;
+401123:	e8 12 03 00 00       	callq  40143a &lt;explode_bomb&gt;
+401128:	41 83 c4 01          	add    $0x1,%r12d
+40112c:	41 83 fc 06          	cmp    $0x6,%r12d
+401130:	74 21                	je     401153 &lt;phase_6+0x5f&gt;</code></pre></div>
+
+<p>第二行，<code>rsp</code>是栈帧的首部地址，将首地址放在了<code>r13</code>，以及<code>rsi</code>。<code>rsi</code>是传递的第二个参数</p>
+<p>然后调用<code>read_six_number</code>即输入六个数字。假如输入<code>1 2 3 4 5 6</code>，那么可以查看<code>rsp</code>的地址</p>
+<p>​    <img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105134440166.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105134440166"></p>
+<p>通过<code>%r13</code>的首部地址，传给<code>rax</code>，减<code>1</code>，然后与<code>5</code>比较，<code>jbe</code>也就是<code>0x5 &gt;= %eax </code>,也就是说，</p>
+<p><strong>输入的数字一定是在<code>1~6</code>之间的</strong>。</p>
+<p><code>%r12</code>其实就是一个计数器，从被初始化为0，然后+1直到为6。这一点可以在后续的代码中表示出来</p>
+<div class="hljs"><pre><code class="hljs assembly">401132:	44 89 e3             	mov    %r12d,%ebx
+401135:	48 63 c3             	movslq %ebx,%rax
+401138:	8b 04 84             	mov    (%rsp,%rax,4),%eax
+40113b:	39 45 00             	cmp    %eax,0x0(%rbp)
+40113e:	75 05                	jne    401145 &lt;phase_6+0x51&gt;
+401140:	e8 f5 02 00 00       	callq  40143a &lt;explode_bomb&gt;
+401145:	83 c3 01             	add    $0x1,%ebx
+401148:	83 fb 05             	cmp    $0x5,%ebx
+40114b:	7e e8                	jle    401135 &lt;phase_6+0x41&gt;
+40114d:	49 83 c5 04          	add    $0x4,%r13
+401151:	eb c1                	jmp    401114 &lt;phase_6+0x20&gt;</code></pre></div>
+
+<p>首先将<code>r12</code>的值交给<code>ebx</code>,然后交给<code>rax</code>,然后使用mov指令，将<code>rax</code>的值设置为第二个输入数字，也就是2。因为后面出现了<code>cmp</code>，我们可以看看这些寄存器都是些什么</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105154548771.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105154548771"><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105154600188.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105154600188"></p>
+<p>结合代码，很明显就看出来，这是一前一后的关系，如果等于，那么就会<code>bomb</code>。</p>
+<p>接下来，可以看出<code>ebx</code>也是一个计数器，且初始值也是<code>r12</code>，并且进行循环，所以可以粗略的写成如下代码</p>
+<div class="hljs"><pre><code class="hljs c"><span class="hljs-keyword">for</span>(r12 = <span class="hljs-number">0</span>; r12 &lt; <span class="hljs-number">5</span>; r12++)&#123;	<span class="hljs-comment">//在上述汇编代码中，如果r12加1为6，那么就不进行接下来内部循环了。</span>
+    <span class="hljs-keyword">for</span>(edx = r12 + <span class="hljs-number">1</span>; edx &lt;= <span class="hljs-number">5</span>; edx++)&#123;
+        <span class="hljs-keyword">if</span>(rsp[r12] == rsp[edx])&#123;
+            bomb!!!
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p><strong>每个数字都是不重复的</strong></p>
+<p>后续代码</p>
+<div class="hljs"><pre><code class="hljs assembly">401153:	48 8d 74 24 18       	lea    0x18(%rsp),%rsi
+401158:	4c 89 f0             	mov    %r14,%rax
+40115b:	b9 07 00 00 00       	mov    $0x7,%ecx
+401160:	89 ca                	mov    %ecx,%edx
+401162:	2b 10                	sub    (%rax),%edx    # 1
+401164:	89 10                	mov    %edx,(%rax)
+401166:	48 83 c0 04          	add    $0x4,%rax	# 2
+40116a:	48 39 f0             	cmp    %rsi,%rax
+40116d:	75 f1                	jne    401160 &lt;phase_6+0x6c&gt;</code></pre></div>
+
+<p>在此中，<code>rsi</code>中储存了<code>%rsp+0x18</code>的地址，由于一个整数的字节大小是4，并且，<code>0x18</code>的十进制是24,所以这个<code>rsi</code>中是数据最后的地址</p>
+<p><code>r14</code>根据前面的内容，是<code>rsp</code>的栈帧，之后将其赋值给<code>rax</code>，到#1，其实是<code>7-(%rax)</code></p>
+<p>#2这段是将<code>rax</code>为选择下一个数据，然后对比是不是最后一个,如果不是就继续循环。</p>
+<p><strong>修改每个输入的数据，修改为<code>7 - rsp[0~5]</code></strong></p>
+<p>例如<code>1 2 3 4 5 6</code>就会被转化为<code>6 5 4 3 2 1</code></p>
+<div class="hljs"><pre><code class="hljs assembly">40116f:	be 00 00 00 00       	mov    $0x0,%esi
+ 401174:	eb 21                	jmp    401197 &lt;phase_6+0xa3&gt;	# 1
+ 401176:	48 8b 52 08          	mov    0x8(%rdx),%rdx
+ 40117a:	83 c0 01             	add    $0x1,%eax
+ 40117d:	39 c8                	cmp    %ecx,%eax
+ 40117f:	75 f5                	jne    401176 &lt;phase_6+0x82&gt;	# 2
+ 401181:	eb 05                	jmp    401188 &lt;phase_6+0x94&gt;	# 3
+ 401183:	ba d0 32 60 00       	mov    $0x6032d0,%edx
+ 401188:	48 89 54 74 20       	mov    %rdx,0x20(%rsp,%rsi,2)
+ 40118d:	48 83 c6 04          	add    $0x4,%rsi
+ 401191:	48 83 fe 18          	cmp    $0x18,%rsi
+ 401195:	74 14                	je     4011ab &lt;phase_6+0xb7&gt;	# 4
+ 401197:	8b 0c 34             	mov    (%rsp,%rsi,1),%ecx
+ 40119a:	83 f9 01             	cmp    $0x1,%ecx
+ 40119d:	7e e4                	jle    401183 &lt;phase_6+0x8f&gt;	# 5
+ 40119f:	b8 01 00 00 00       	mov    $0x1,%eax
+ 4011a4:	ba d0 32 60 00       	mov    $0x6032d0,%edx
+ 4011a9:	eb cb                	jmp    401176 &lt;phase_6+0x82&gt;	# 6</code></pre></div>
+
+<p>这段代码比较复杂，跳转语句太多了，所以慢慢来~</p>
+<p>#1前先重置<code>esi</code>，然后跳转直到执行#5。很明显的是 mov语句使<code>%ecx</code>的值为第一个输入值,然后查看是否小于等于<code>1</code>，由于不可能是负数，所以这里只可能是1的情况下不跳转。</p>
+<p>因为 大多数都是不为1，如果不跳过去直到执行#6,。这里出现了一个储存地址<code>$0x6032d0</code>，来看看这个是什么</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105163324319.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105163324319"></p>
+<p>一个暂时还不知道干嘛的整数。然后接下来观察跳转过去的代码，发现了我们熟悉的<code>add</code>然后<code>cmp</code>再<code>jne/je</code>格式的跳转，没问题，这一定是一个for循环。</p>
+<p>至于循环的初始值是<code>rax</code>已经在刚开始的时候设置成为<code>0x1</code>，<code>ecx</code>就是我们输入的数字x的<code>7-x</code>。</p>
+<p>于是我们就豁然开朗了起来，这个<code>0x6032d0</code>是一个数组的首地址，我们输入，然后通过<code>7 - x</code>处理之后的数字是下标(为什么不用随机寻址一步到位？)</p>
+<p>于是可以看看这个数组里面是什么东西，断点查看一下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105200922012.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105200922012"></p>
+<p>结果非常amazing啊，其实这不是一个数组，而是一个<strong>链表</strong>。这也就是为什么不用随机寻址的原因。</p>
+<p>然后将其放在<code>0x20(%rsp, %rsi, 2)</code>这个地址里面，对于<code>rsi</code>为<code>0x0</code>的情况，就会将这个值放在<code>%rsp+0x20</code>这个位置。运行一下，理论上这个值应该是链表中第六个的值。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105201229432.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105201229432"></p>
+<p>果然如此（不是我就不会写上去了）</p>
+<p><code>rsi</code>为初始大小，然后每次加上<code>0x4</code>大小，上限是<code>0x18</code>，也就是6个<code>int</code>类型的大小。对于<code>rdx</code>，其实就是链表的地址，每次<code>+0x8</code>，其实就是找下一个地址，很巧的是这个的地址十分规整，是连续的地址。</p>
+<p><strong>由此此段代码会在<code>rsp+0x20</code>的基础上加上六个链表中带来的数字，且每个所占大小为8个字节</strong></p>
+<div class="hljs"><pre><code class="hljs assembly">4011ab:	48 8b 5c 24 20       	mov    0x20(%rsp),%rbx
+4011b0:	48 8d 44 24 28       	lea    0x28(%rsp),%rax
+4011b5:	48 8d 74 24 50       	lea    0x50(%rsp),%rsi
+4011ba:	48 89 d9             	mov    %rbx,%rcx</code></pre></div>
+
+<p>浅显的代码，<code>rsi</code>放上限，<code>rbx</code>放第一参数，<code>rax</code>放第二个参数,<code>rcx</code>放第一个参数，都是地址。我们可以查看<code>rsp</code>的值</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105204618502.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105204618502"></p>
+<p>一个块占8个字节，前四个字节是链表地址，里面有值，后面是没有设置的0。</p>
+<div class="hljs"><pre><code class="hljs assembly">4011bd:	48 8b 10             	mov    (%rax),%rdx
+4011c0:	48 89 51 08          	mov    %rdx,0x8(%rcx)
+4011c4:	48 83 c0 08          	add    $0x8,%rax
+4011c8:	48 39 f0             	cmp    %rsi,%rax
+4011cb:	74 05                	je     4011d2 &lt;phase_6+0xde&gt;
+4011cd:	48 89 d1             	mov    %rdx,%rcx
+4011d0:	eb eb                	jmp    4011bd &lt;phase_6+0xc9&gt;</code></pre></div>
+
+<p>这段代码我不知道是来干嘛的，前面的参数加一个偏移量<code>0x8</code>然后给后面的赋值？这不是没有改变什么？除了<code>rax</code> </p>
+<div class="hljs"><pre><code class="hljs assembly">4011da:	bd 05 00 00 00       	mov    $0x5,%ebp
+4011df:	48 8b 43 08          	mov    0x8(%rbx),%rax
+4011e3:	8b 00                	mov    (%rax),%eax
+4011e5:	39 03                	cmp    %eax,(%rbx)
+4011e7:	7d 05                	jge    4011ee &lt;phase_6+0xfa&gt;
+4011e9:	e8 4c 02 00 00       	callq  40143a &lt;explode_bomb&gt;
+4011ee:	48 8b 5b 08          	mov    0x8(%rbx),%rbx
+4011f2:	83 ed 01             	sub    $0x1,%ebp
+4011f5:	75 e8                	jne    4011df &lt;phase_6+0xeb&gt;</code></pre></div>
+
+<p>最后一段代码了，很简单操作，观察<code>cmp</code>，想不触发必须<code>eax &lt;= rbx</code>，<code>eax</code>是后一个参数，<code>rbx</code>是前一个参数,然后循环5次</p>
+<p>简而言之，<strong>降序排列</strong></p>
+<p>根据：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105205636072.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105205636072"></p>
+<p>所以顺序为<code>3 4 5 6 1 2</code>，由于<code>7 - x</code>，所以答案是：</p>
+<p><code>4 3 2 1 6 5</code></p>
+<h2 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋~"></a>彩蛋~</h2><p>非常amazing，第一次见到实验题还有彩蛋的。</p>
+<p>（我本来不知道还有彩蛋，做完翻看答案的时候才发现有这个，而且还藏在C文件中）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105210630417.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105210630417"></p>
+<p>注释告诉你其实还有彩蛋</p>
+<p>我们可以查看<code>phase_defused</code>函数,截取了一段代码</p>
+<div class="hljs"><pre><code class="hljs assembly">4015f0:	be 19 26 40 00       	mov    $0x402619,%esi
+4015f5:	bf 70 38 60 00       	mov    $0x603870,%edi
+4015fa:	e8 f1 f5 ff ff       	callq  400bf0 &lt;__isoc99_sscanf@plt&gt;
+4015ff:	83 f8 03             	cmp    $0x3,%eax
+401602:	75 31                	jne    401635 &lt;phase_defused+0x71&gt;
+401604:	be 22 26 40 00       	mov    $0x402622,%esi
+401609:	48 8d 7c 24 10       	lea    0x10(%rsp),%rdi
+40160e:	e8 25 fd ff ff       	callq  401338 &lt;strings_not_equal&gt;
+401613:	85 c0                	test   %eax,%eax
+401615:	75 1e                	jne    401635 &lt;phase_defused+0x71&gt;
+......
+40162b:	b8 00 00 00 00       	mov    $0x0,%eax
+401630:	e8 0d fc ff ff       	callq  401242 &lt;secret_phase&gt;</code></pre></div>
+
+<p>可以打点查看这两个<code>0x402619</code>和<code>0x603870</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105211159452.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105211159452"></p>
+<p>这个<code>3 0</code>是我们在第四关输入的答案，前面的是<code>scanf</code>输入的字符串，后面跟了一个<code>%s</code>，然后更具后面返回的<code>eax</code>可以得出，输入两个和三个是有区别的，两个就直接跳过彩蛋，但是三个就可以找到这个隐藏的彩蛋！</p>
+<p>后面有个<code>strings_not_equal</code>，很明显这个彩蛋也要有特殊的字符，也就是藏在了<code>0x402622</code>当中！</p>
+<p>可以gdb查看一下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105211506424.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105211506424"></p>
+<p>那么，只要在第四题<code>3 0</code>后面加上这个<code>DrEvil</code>就可以进入彩蛋啦~</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105211727580.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105211727580"></p>
+<p>我这里假设输入123，但是我不确定需要输入的东西是什么，可能是字符串，数组等等。</p>
+<div class="hljs"><pre><code class="hljs assembly"># secret_phase
+401248:	ba 0a 00 00 00       	mov    $0xa,%edx
+40124d:	be 00 00 00 00       	mov    $0x0,%esi
+401252:	48 89 c7             	mov    %rax,%rdi
+401255:	e8 76 f9 ff ff       	callq  400bd0 &lt;strtol@plt&gt;
+40125a:	48 89 c3             	mov    %rax,%rbx
+40125d:	8d 40 ff             	lea    -0x1(%rax),%eax
+401260:	3d e8 03 00 00       	cmp    $0x3e8,%eax
+401265:	76 05                	jbe    40126c &lt;secret_phase+0x2a&gt;
+401267:	e8 ce 01 00 00       	callq  40143a &lt;explode_bomb&gt;</code></pre></div>
+
+<p><code>edx</code>为10，<code>esi</code>为0。</p>
+<p>在<code>0x401265</code>打点，查看寄存器<code>rax</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105212819389.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105212819389"></p>
+<p><code>rax</code>是<code>strtol</code>函数的返回值，具有减一操作，并且与<code>0x3e8</code>也就是<code>1000</code>比较，无疑，我们输入的东西是一个数字。 并且在<code>1~10001</code>之间</p>
+<div class="hljs"><pre><code class="hljs assembly">40126c:	89 de                	mov    %ebx,%esi
+40126e:	bf f0 30 60 00       	mov    $0x6030f0,%edi
+401273:	e8 8c ff ff ff       	callq  401204 &lt;fun7&gt;
+401278:	83 f8 02             	cmp    $0x2,%eax</code></pre></div>
+
+<p><code>edi</code>是一个参数，<code>esi</code>是第二个参数，<code>esi</code>的值为<code>0</code>，我们可以打点查看<code>0x6030f0</code>值是多少。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105213359345.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105213359345"></p>
+<p>有了链表的经验，我们不能武断地认为这是一个数组，什么数据结构需要看他占用的大小和使用方式</p>
+<div class="hljs"><pre><code class="hljs assembly"># fun7
+  401208:	48 85 ff             	test   %rdi,%rdi
+  40120b:	74 2b                	je     401238 &lt;fun7+0x34&gt;
+  ...
+  401238:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
+  40123d:	48 83 c4 08          	add    $0x8,%rsp</code></pre></div>
+
+<p>这段代码的意思是,如果<code>rdi</code>的值为0,就将<code>eax</code>拉满，但是我们知道，<code>rdi</code>是一个地址。</p>
+<div class="hljs"><pre><code class="hljs assembly">40120f:	39 f2                	cmp    %esi,%edx
+401211:	7e 0d                	jle    401220 &lt;fun7+0x1c&gt;
+...
+401220:	b8 00 00 00 00       	mov    $0x0,%eax
+401225:	39 f2                	cmp    %esi,%edx
+401227:	74 14                	je     40123d &lt;fun7+0x39&gt;
+401229:	48 8b 7f 10          	mov    0x10(%rdi),%rdi
+40122d:	e8 d2 ff ff ff       	callq  401204 &lt;fun7&gt;
+401232:	8d 44 00 01          	lea    0x1(%rax,%rax,1),%eax
+401236:	eb 05                	jmp    40123d &lt;fun7+0x39&gt;</code></pre></div>
+
+<p>有没有很熟悉？这段代码和第四题如出一辙，但是没有二分。</p>
+<p>如果小于等于就跳转，将<code>eax</code>设置为0,如果相等就直接返回，不相等就继续递归，直到找到<code>rsi</code>与<code>rdx</code>相等的值,然后在这里是<code>2*%rax+1</code>，其中<code>rsi</code>是固定不变的我们输入的值(而不是减一后的值，前面的代码<code>40126c:    89 de                    mov    %ebx,%esi</code>)</p>
+<div class="hljs"><pre><code class="hljs assembly">401213:	48 8b 7f 08          	mov    0x8(%rdi),%rdi
+401217:	e8 e8 ff ff ff       	callq  401204 &lt;fun7&gt;
+40121c:	01 c0                	add    %eax,%eax
+40121e:	eb 1d                	jmp    40123d &lt;fun7+0x39&gt;</code></pre></div>
+
+<p>这段代码就是大于的情况。</p>
+<p>其中最关键的点，也是困惑了我很久的点，在于这两个代码</p>
+<div class="hljs"><pre><code class="hljs assembly">401213:	48 8b 7f 08          	mov    0x8(%rdi),%rdi
+401229:	48 8b 7f 10          	mov    0x10(%rdi),%rdi</code></pre></div>
+
+<p>其中<code>rdi</code>是起始地址，那么<code>0x8</code>以及<code>0x10</code>就是往下一个数据迭代的过程。由于都是<code>0x8</code>的倍数，我就<strong>很自然</strong>认为每个数据占的字节大小为8</p>
+<p>调试</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105215048697.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105215048697"></p>
+<p>最前面的数字<code>36</code>是值，然后后面的<code>6304016</code>等，完全不知道是什么意思。但是后面发现<code>+0x8</code>然后发现对应的是<code>6304016</code>这个值，<code>+0x10</code>对应的值是<code>6304048</code>。根据我们能看懂的数据，这个数据块的大小应该是<code>0x16</code></p>
+<p>后来，我把显示化作了16进制</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210105215750028.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210105215750028"></p>
+<p>豁然开朗，这是一个<strong>二叉树</strong>！后面的0是地址对齐</p>
+<p>接下来的问题就迎刃而解了，我们可以画一张二叉树的图</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210106085132843.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210106085132843"></p>
+<p>可以观察到，以上的叶子节点的左右指针都是<code>0</code>，也就是<code>nullptr</code>呼应了上面地址为0就将<code>eax</code>设置为<code>$0xffffffff</code>。</p>
+<p>所以，我们<strong>输入的值一定是在这个节点</strong>里面的</p>
+<p><code>cmp    $0x2,%eax</code></p>
+<p>由此段代码得知，最后的返回值是<code>2</code>。关于<code>eax</code>的计算，可以参考第四题，这里我们需要关注的是左右节点的选择。<strong>如果输入比当前节点小或者等于，就走左边，反之右边。</strong>通过观察我们可以发现，这是一个完全二叉搜索树。</p>
+<p>通过<code>2*eax+1</code>或者<code>2+eax</code>的计算，可以推算出答案</p>
+<p><code>22</code>或者<code>20</code></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>一共七道题目，答案如下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210106090448171.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210106090448171"></p>
+<p>刚开始接触这个实验的时候，感到十分棘手，虽然我学习过汇编，但是是Intel汇编和本书的ATT汇编，在指令上是相反的，导致我一开始完全不看懂题目。</p>
+<p>一共七道题目，参考了第一题和第二题，后面的除了彩蛋的发现，都是自己琢磨了很久才发现答案的。在我看来，这个<code>bomb</code>实验和<code>datalab</code>是完全不同画风的实验。<code>datalab</code>像我这种智商欠费的人，不会做就是不会做。<code>bomb</code>只要有<strong>耐心</strong>，就可以做完。</p>
+<p>第一次见到实验题中还有彩蛋的，ORZ</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/categories/csapp/">csapp</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/Linux/">Linux</a>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/csapp/">csapp</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/WennyAhhh.github.io/2020/12/30/chisel%E6%B5%8B%E8%AF%95%E9%97%AE%E9%A2%98/">
+                        <span class="hidden-mobile">chisel测试问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/WennyAhhh.github.io/js/debouncer.js" ></script>
+<script  src="/WennyAhhh.github.io/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/WennyAhhh.github.io/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/WennyAhhh.github.io/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "bomb lab&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/WennyAhhh.github.io/js/local-search.js" ></script>
+  <script>
+    var path = "/WennyAhhh.github.io/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
