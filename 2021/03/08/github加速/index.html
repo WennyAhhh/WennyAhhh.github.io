@@ -1,0 +1,592 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/WennyAhhh.github.io/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/WennyAhhh.github.io/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="chaij">
+  <meta name="keywords" content="">
+  <title>github加速 - chaij&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/WennyAhhh.github.io/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/WennyAhhh.github.io/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/WennyAhhh.github.io/js/utils.js" ></script>
+  <script  src="/WennyAhhh.github.io/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <script src="https://WennyAhhh.github.io/live2d/autoload.js"></script>
+  <header style="height: 70vh;">
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/WennyAhhh.github.io/">&nbsp;<strong>chaij's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/WennyAhhh.github.io/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/WennyAhhh.github.io/img/article.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      chaij
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-08 22:03" pubdate>
+        2021年3月8日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">github加速</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="github加速"><a href="#github加速" class="headerlink" title="github加速"></a>github加速</h1><h2 id="gitee"><a href="#gitee" class="headerlink" title="gitee"></a>gitee</h2><p>一般在github中的资源在<code>gitee</code>, 比如折磨我的<code>riscv-gnu-toolchain</code>项目， 在Gitee中有镜像项目</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210308141708173.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210308141708173"></p>
+<p>但是有些麻烦。</p>
+<h2 id="代理链接-一般用这个方便"><a href="#代理链接-一般用这个方便" class="headerlink" title="代理链接(一般用这个方便)"></a>代理链接(一般用这个方便)</h2><p>域名：</p>
+<p><a target="_blank" rel="noopener" href="http://zygxsq.cn/github/">http://zygxsq.cn/github/</a></p>
+<p>但是不用每次都要打开这个网页， 在需要git的代码中的<code>.com</code>修改成为<code>.zygxsq.cn</code>(可以记忆为资源共享社区)</p>
+<p>速度对比(我这里的网络只有10M T_T,  校园网太贵了)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210308140905319.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210308140905319"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210308141155706.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210308141155706"></p>
+<h2 id="chrome插件"><a href="#chrome插件" class="headerlink" title="chrome插件"></a>chrome插件</h2><p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210308142040178.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210308142040178"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210308142030614.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210308142030614"></p>
+<p>其实和之前的代理链接一个原理</p>
+<p>油猴里面也有<code>github</code>的加速脚本， 这里就不列出了。</p>
+<h2 id="修改host"><a href="#修改host" class="headerlink" title="修改host"></a>修改host</h2><p><code>vim /etc/hosts</code></p>
+<p>将 <a target="_blank" rel="noopener" href="https://gitee.com/Mosiki/github/raw/master/github_hosts.txt">https://gitee.com/Mosiki/github/raw/master/github_hosts.txt</a> 这个网站中的信息添加到以上文件中。</p>
+<p>上面的hosts是会更新的， 可以利用软件自动更新， 由于我大部分的使用情况是只使用<code>shell</code>， 很少使用GUI界面，也就懒得尝试了。</p>
+<p>可以参考</p>
+<p><a target="_blank" rel="noopener" href="http://nullpointer.pw/github%E4%BB%A3%E7%A0%81clone%E5%8A%A0%E9%80%9F.html">http://nullpointer.pw/github%E4%BB%A3%E7%A0%81clone%E5%8A%A0%E9%80%9F.html</a></p>
+<h2 id="git-config"><a href="#git-config" class="headerlink" title="git config"></a>git config</h2><p>以上的方式都有一个致命的问题， 当一个项目中包含子模块的时候， 子模块没有添加代理链接呀， 比如<code>riscv-gnu-toolchain</code>,里面的<code>.git/config</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210308213015884.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210308213015884"></p>
+<p>当然你可以不嫌累一个一个换过去， 但是你并不知道这个子模块里面会不会也有子模块(孙子模块？)，而riscv的这个项目就是这样的例子</p>
+<p>但是对于我们这种良好网民， 有什么好的办法？</p>
+<p>一般<code>1080</code>是<code>socks5</code>的端口，如果不是自己可以修改 (https好像没用？ 没有具体试过， 一般用http)</p>
+<div class="hljs"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 设置</span>
+git config --global https.proxy http://127.0.0.1:1080
+
+git config --global https.proxy https://127.0.0.1:1080
+
+<span class="hljs-meta">#</span><span class="bash"> 取消</span>
+git config --global --unset http.proxy
+
+git config --global --unset https.proxy
+
+npm config delete proxy</code></pre></div>
+
+<p>这样设置了之后， 会在<code>~/.gitconfig</code>中设置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210308195501737.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210308195501737"></p>
+<p>由这样说， 那么就可以说明<code>https.proxy</code><del>没用</del>？</p>
+<p>当然你由于是<code>socks5</code>, 所以也可以这样设置</p>
+<div class="hljs"><pre><code class="hljs shell">git config --global http.proxy &#x27;socks5://127.0.0.1:1080&#x27;
+git config --global https.proxy &#x27;socks5://127.0.0.1:1080&#x27;</code></pre></div>
+
+<p>这样， 127.0.0.1是本地环回地址， 也就是<code>git</code>下载的时候走的代理方式是1080端口。也就是本地代理。</p>
+<p>有时候我们并不局限于<code>git</code>，所以可以设置</p>
+<div class="hljs"><pre><code class="hljs shell">export ALL_PROXY=socks5://127.0.0.1:1080</code></pre></div>
+
+<p>当然， 1080这个端口随着你的socket监听端口改变而改变。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210308185136669.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210308185136669"></p>
+<p>使用了git 设置代理</p>
+<p><img src="https://cdn.jsdelivr.net/gh/WennyAhhh/image@master/img/image-20210308185307835.png" srcset="/WennyAhhh.github.io/img/loading.gif" alt="image-20210308185307835"></p>
+<p>但是这是本地代理， 并没有使用外部代理， 我一直没搞懂这个能加速的原理， 在阿里云的服务器上跑不尽如意。</p>
+<h2 id="科学"><a href="#科学" class="headerlink" title="科学"></a>科学</h2><p>​    关于这个事，我简单说两句，至于我的身份，你明白就行，总而言之，这个事呢，现在就是这个情况，具体的呢，大家也都看得到，我因为这个身份上的问题，也得出来说那么几句，可能，你听的不是很明白，但是意思就是那么个意思，我的身份呢，不知道的你也不用去猜，这种事情见得多了，我只想说懂得都懂，不懂的我也不多解释，毕竟自己知道就好，细细品吧。你们也别来问我怎么了，利益牵扯太大，说了对你我都没好处，当不知道就行了，其余的我只能说这里面水很深，牵扯到很多东西。详细情况你们自己是很难找的，网上大部分已经删除干净了，所以我只能说懂得都懂。懂的人已经基本都获利上岸什么的了，不懂的人永远不懂，关键懂的人都是自己悟的，你也不知道谁是懂的人也没法请教，大家都藏着掖着生怕别人知道自己懂事，懂了就能收割不懂的，你甚至都不知道自己不懂。只是在有些时候，某些人对某些事情不懂装懂，还以为别人不懂。其实自己才是不懂的，别人懂的够多了，不仅懂，还懂的超越了这个范围，但是某些不懂的人让这个懂的人完全教不懂，所以不懂的人永远不懂，只能不懂装懂，别人说懂的都懂，只要点点头就行了，其实你懂的我也懂,谁让我们都懂呢,不懂的话也没必要装懂,毕竟里面牵扣扯到很多懂不了的事。这种事懂的人也没必要访出来,不懂的人看见又来问七问八,最后跟他说了他也不一定能懂,就算懂了以后也对他不好,毕竟懂的太多了不是好事。所以大家最好是不懂就不要去了解,懂太多不好 (知乎大佬那抄的)</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/categories/%E6%9D%82%E9%A1%B9/">杂项</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/WennyAhhh.github.io/tags/%E7%9E%8E%E6%8A%98%E8%85%BE/">瞎折腾</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/WennyAhhh.github.io/2021/01/06/bomb%E5%AE%9E%E9%AA%8C/">
+                        <span class="hidden-mobile">bomb lab</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/WennyAhhh.github.io/js/debouncer.js" ></script>
+<script  src="/WennyAhhh.github.io/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/WennyAhhh.github.io/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/WennyAhhh.github.io/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "github加速&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/WennyAhhh.github.io/js/local-search.js" ></script>
+  <script>
+    var path = "/WennyAhhh.github.io/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
