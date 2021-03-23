@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>零碎的笔记</title>
+    <link href="/WennyAhhh.github.io/2021/03/23/thread_local%E5%92%8C%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/"/>
+    <url>/WennyAhhh.github.io/2021/03/23/thread_local%E5%92%8C%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/</url>
+    
+    <content type="html"><![CDATA[<h1 id="thread-local和智能指针"><a href="#thread-local和智能指针" class="headerlink" title="thread_local和智能指针"></a>thread_local和智能指针</h1><h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><p>简述： <code>thread_local</code>前缀表示这是一个线程局部变量， 声明周期是整个线程的开始-结束。</p><p>以下代码的目的是让每个线程都有且仅有一个<code>Foo</code>实例。 由于<code>thread_local</code>的管理方式， 我很自然想到利用智能指针。也就是以下代码 </p><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;thread&gt;</span></span><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;unistd.h&gt;</span></span><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;memory&gt;</span></span><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Foo</span>;</span><span class="hljs-keyword">thread_local</span> <span class="hljs-built_in">unique_ptr</span>&lt;Foo&gt; res = <span class="hljs-literal">nullptr</span>;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Foo</span></span><span class="hljs-class">&#123;</span><span class="hljs-keyword">public</span>:    Foo(<span class="hljs-keyword">int</span> _k = <span class="hljs-number">0</span>) : k(_k)    &#123;        <span class="hljs-keyword">if</span> (res == <span class="hljs-literal">nullptr</span>)        &#123;            res.reset(<span class="hljs-keyword">this</span>);        &#125;        <span class="hljs-keyword">else</span>        &#123;            <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;error&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;        &#125;    &#125;    ~Foo()    &#123;        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;~Foo &quot;</span> &lt;&lt; k &lt;&lt; <span class="hljs-built_in">endl</span>;    &#125;    <span class="hljs-keyword">int</span> k;&#125;;<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">()</span></span><span class="hljs-function"></span>&#123;    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;threadFunc(): pid = %d, tid = %lld \n&quot;</span>, <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">int</span>&gt;(getpid()), <span class="hljs-built_in">std</span>::this_thread::get_id());    Foo foo;&#125;<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><span class="hljs-function"></span>&#123;    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;threadFunc(): pid = %d, tid = %lld \n&quot;</span>, <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">int</span>&gt;(getpid()), <span class="hljs-built_in">std</span>::this_thread::get_id());    <span class="hljs-function">Foo <span class="hljs-title">foo</span><span class="hljs-params">(<span class="hljs-number">2</span>)</span></span>;    <span class="hljs-function">thread <span class="hljs-title">newthread</span><span class="hljs-params">(func)</span></span>;    newthread.join();    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;&#125;</code></pre><p>但是结果是段错误</p><pre><code class="hljs shell">threadFunc(): pid = 27750, tid = 140292996699968 threadFunc(): pid = 27750, tid = 140292978460416 ~Foo 0~Foo 22068Segmentation fault</code></pre><p>我一开始很好奇出错我原因， 我一开始是<code>thread_local</code>的概念我没有弄清</p><p>但是查了资料， 已经自己的<code>debug</code>， 不是我概念理解的问题。 </p><h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>当声明一个<code>thread_local</code>为<code>unique_ptr</code>智能指针的时候，在这个<code>thread_local</code>的声明周期结束的时候， 会<strong>调用析构函数</strong>释放这个变量。 这个语句</p><p><code> res.reset(this);</code> 将这个线程的<code>Foo</code>实例与智能指针绑定在一起。智能指针也会在线程结束之后调用析构函数。也就是说， 调用了<strong>两次析构函数</strong></p><p>（这个错误太低级了）</p><h2 id="改正"><a href="#改正" class="headerlink" title="改正"></a>改正</h2><p>可以将智能指针直接写成裸指针， 也不会有内存泄露的问题。</p><p>但是都是C++20了， 裸指针看起来太变扭， 那么可以在析构函数修改为， 就是直接释放了</p><pre><code class="hljs c++">~Foo()   &#123;       res.release();       <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;~Foo &quot;</span> &lt;&lt; k &lt;&lt; <span class="hljs-built_in">endl</span>;   &#125;</code></pre><p>其中<code>res.release()</code>不是释放内存调用析构函数， 而是放弃对它所指对象的控制权， 有个指针返回值(但是不需要用)</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>杂项</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>坑</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>go 接口与反射</title>
     <link href="/WennyAhhh.github.io/2021/03/13/%E5%8F%8D%E5%B0%84/"/>
     <url>/WennyAhhh.github.io/2021/03/13/%E5%8F%8D%E5%B0%84/</url>
